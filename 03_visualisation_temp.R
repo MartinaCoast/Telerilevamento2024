@@ -30,14 +30,38 @@ plot(b2, col=clcyan)
 b3 <- im.import("sentinel.dolomites.b3.tif")
 plot(b3, col=clcyan)
 
-# Importiamo la banda del rosso, la numero 4
+# Importiamo la banda 4, quella del rosso 
 b4 <- im.import("sentinel.dolomites.b4.tif")
 plot(b4, col=clcyan)
 
-# Importiamo la banda 8
+# Importiamo la banda 8, quella dell'infrarosso
 b8 <- im.import("sentinel.dolomites.b8.tif")
 plot(b8, col=clcyan)
 
+# Multiframe
+# creiamo 2 righe e 2 colonne per posizionare i grafici delle 4 bande
+par(mfrow=c(2,2))
 
+# Plottiamo le 4 bande che andranno a inserirsi nel multiframe che abbiamo appena creato
+plot(b2, col=clcyan)
+plot(b3, col=clcyan)
+plot(b4, col=clcyan)
+plot(b8, col=clcyan)
 
+#  Adesso creiamo un altro multiframe con 1 sola riga e 4 colonne per posizionare i grafici delle 4 bande
+par(mfrow=c(1,4))
+
+# Plottiamo le 4 bande che andranno a inserirsi nel multiframe che abbiamo appena creato
+plot(b2, col=clcyan)
+plot(b3, col=clcyan)
+plot(b4, col=clcyan)
+plot(b8, col=clcyan)
+
+# Facciamo un'immagine satellitare, sovrapponendo le 4 bande
+stacksent<- c(b2, b3, b4, b8)
+plot(stacksent, col=clcyan)
+
+# Plottiamo una singola immagine satellitare, la numero 4 corrispondente alla banda b8
+dev.off()
+plot(stacksent [[4]], col=clcyan)
 
