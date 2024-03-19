@@ -81,3 +81,28 @@ par(mfrow=c(1,2))
 im.plotRGB(stacksent, 3, 2, 1)
 im.plotRGB(stacksent, 4, 2, 1)
 
+
+dev.off()
+im.plotRGB(stacksent, 4, 3, 2)
+
+par(mfrow=c(1,3))
+im.plotRGB(stacksent, 3, 2, 1)
+im.plotRGB(stacksent, 4, 2, 1)
+im.plotRGB(stacksent, 4, 3, 2)
+
+dev.off()
+im.plotRGB(stacksent, 3, 4, 2)
+im.plotRGB(stacksent, 3, 2, 4)
+
+
+# final multiframe: put the 4 images alltogether
+par(mfrow=c(2,2))
+im.plotRGB(stacksent, 3, 2, 1) # natural colors
+im.plotRGB(stacksent, 4, 3, 2) # nir on red
+im.plotRGB(stacksent, 3, 4, 2) # nir on green
+im.plotRGB(stacksent, 3, 2, 4) # nir on blue
+
+# Correlation of informations
+pairs(stacksent) 
+
+
