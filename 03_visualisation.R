@@ -65,3 +65,19 @@ plot(stacksent, col=clcyan)
 dev.off()
 plot(stacksent [[4]], col=clcyan)
 
+# RGB plotting
+# stacksent[[1]] = b2 = blue
+# stacksent[[2]] = b3 = green
+# stacksent[[3]] = b4 = red
+# stacksent[[4]] = b8 = nir
+
+# Facciamo un plot RGB
+im.plotRGB(stacksent, 3, 2, 1)
+
+im.plotRGB(stacksent, 4, 2, 1)
+
+# esercizio: metti una di fianco all'altra le due immagini, quella a colori veri e quella a colori filtrati
+par(mfrow=c(1,2))
+im.plotRGB(stacksent, 3, 2, 1)
+im.plotRGB(stacksent, 4, 2, 1)
+
