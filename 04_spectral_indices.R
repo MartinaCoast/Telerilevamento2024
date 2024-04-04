@@ -72,5 +72,15 @@ par(mfrow=c(1,2))
 plot(dvi1992, col=cl)
 plot(dvi2006, col=cl)
 
+# Normalized Difference Vegetation Index
+ndvi1992 = dvi1992/(m1992[[1]] + m1992[[2]])
+ndvi2006 = dvi2006/(m2006[[1]] + m2006[[2]])
 
+dev.off()
+par(mfrow=c(1,2))
+plot(ndvi1992, col=cl)
+plot(ndvi2006, col=cl)
 
+# speediing up calculation
+ndvi2006a <- im.ndvi(m2006, 1, 2) # è la stessa cosa che ho appena fatto, semplicemente questa è una funzione dentro al pacchetto di imageRy, dove 1 e 2 rappresentano sempre le bande NIR e RED
+plot(ndvi2006a, col=cl)
