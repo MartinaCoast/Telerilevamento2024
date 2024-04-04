@@ -49,4 +49,28 @@ im.plotRGB(m2006, 2, 1, 3) # 2006 nir on green
 im.plotRGB(m2006, 2, 3, 1) # 2006 nir on blue
 
 
+# calcolo indice DVI (Difference Vegetation Index)
+# band 1 = NIR
+# band 2 = red
+dvi1992 = m1992[[1]] - m1992[[2]] # dichiariamo gli elementi che vogliamo utilizzare, quindi il primo elemento [1] e il secondo elemento [2]
+dvi1992
+
+# plotting the DVI
+cl <- colorRampPalette(c("darkblue", "yellow", "red", "black")) (100)
+plot(dvi1992, col=cl)
+
+# rifacciamo la stessa operazione per calcolare il DVI del 2006
+m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
+# DVI 2006
+dvi2006 = m2006[[1]] - m2006[[2]]
+dvi2006
+
+plot(dvi2006, col=cl)
+
+# esercizio: plot the dvi1992 beside the dvi2006
+par(mfrow=c(1,2))
+plot(dvi1992, col=cl)
+plot(dvi2006, col=cl)
+
+
 
