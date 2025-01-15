@@ -14,7 +14,7 @@ flowers
 insects <- c(10,16,25,42,61,73)
 insects
 
-plot(flowers, insects) #è una funzione, quindi è come se scrivessi f(x,y)
+plot(flowers, insects) #è una funzione, quindi è come se scrivessi che voglio il grafico della funzione f(x,y)
 
 # changing plot parameters
 
