@@ -51,7 +51,7 @@ plot(b3, col=clcyan)
 plot(b4, col=clcyan)
 plot(b8, col=clcyan)
 
-#  Adesso creiamo un altro multiframe con 1 sola riga e 4 colonne per posizionare i grafici delle 4 bande
+# Adesso creiamo un altro multiframe con 1 sola riga e 4 colonne per posizionare i grafici delle 4 bande
 par(mfrow=c(1,4))
 
 # Plottiamo le 4 bande che andranno a inserirsi nel multiframe che abbiamo appena creato
@@ -75,8 +75,12 @@ plot(stacksent [[4]], col=clcyan) #adesso ho questo nuovo plot, le [] sono doppi
 # stacksent[[4]] = b8 = nir 
 
 # Facciamo un plot RGB
-im.plotRGB(stacksent, 3, 2, 1)
+# Dichiaro nome immagine (qui stacksent) e dichiaro quali sono le tre compnenti che corrispondono ai 3 filtri
+im.plotRGB(stacksent,r=3,g=2,b=1)
+im.plotRGB(stacksent,3,2,1)
+# Associamo il livello 1 al blu, il 2 al verde, il 3 al rosso: otterrò un'immagine con i colori reali
 
+# Per evidenziare il verde, sostituiamo il filtro rosso con la componente infrarossa (4): tutto quello che riflette infrarosso diventerà rosso
 im.plotRGB(stacksent, 4, 2, 1)
 
 # esercizio: metti una di fianco all'altra le due immagini, quella a colori veri e quella a colori filtrati
@@ -84,28 +88,32 @@ par(mfrow=c(1,2))
 im.plotRGB(stacksent, 3, 2, 1)
 im.plotRGB(stacksent, 4, 2, 1)
 
+#In realtà nel telerilevamento si può fare più velocemente 
+dev.off() #cancello il plot precedente per fare quello nuovo più velocemente
+im.plotRGB(stacksent, 4, 3, 2) #il risultato sarà uguale a quello nella riga 84, perchè comanda la banda meno correlata con le altre, qui l'infrarosso
+#4:infrarosso; 3:rosso; 2:verde
 
-dev.off()
-im.plotRGB(stacksent, 4, 3, 2)
-
+# verifichiamo con un par
 par(mfrow=c(1,3))
-im.plotRGB(stacksent, 3, 2, 1)
-im.plotRGB(stacksent, 4, 2, 1)
-im.plotRGB(stacksent, 4, 3, 2)
+im.plotRGB(stacksent, 3, 2, 1) #colori naturali
+im.plotRGB(stacksent, 4, 2, 1) #infrarosso al posto del rosso
+im.plotRGB(stacksent, 4, 3, 2) #cambio anche le altre due bande togliendo il blu
 
+#provo altre combinazioni
 dev.off()
-im.plotRGB(stacksent, 3, 4, 2)
-im.plotRGB(stacksent, 3, 2, 4)
+im.plotRGB(stacksent, 3, 4, 2) #infrarosso al posto del verde: solitamente qui il suolo nudo diventa rosa
+im.plotRGB(stacksent, 3, 2, 4) #infrarosso al posto del blu: per evidenziare il suolo nudo che diventa giallo (colore che colpisce di più l'occhio umano)
 
 
-# final multiframe: put the 4 images alltogether
-par(mfrow=c(2,2))
+# esercizio final multiframe: metti le 4 immagini insieme
+par(mfrow=c(2,2)) #potevo anche mettere tutte le immagini sulla stessa riga (1,4)
 im.plotRGB(stacksent, 3, 2, 1) # natural colors
 im.plotRGB(stacksent, 4, 3, 2) # nir on red
 im.plotRGB(stacksent, 3, 4, 2) # nir on green
 im.plotRGB(stacksent, 3, 2, 4) # nir on blue
 
-# Correlation of informations
+# Correlation of informations: faccio una nuova funzione, una grande matrice con diversi grafici all'interno, tra cui indice di Pearson etc. 
 pairs(stacksent) 
 
-
+#Per avere info su una certa immagine, come il numero dei pixel, etc basta scrivere il nome dell'immagine
+b2
