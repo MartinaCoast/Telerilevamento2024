@@ -60,31 +60,35 @@ im.plotRGB(m2006, 2, 3, 1) # 2006 nir on blue
 
 #DVI 1992
 dvi1992 = m1992[[1]] - m1992[[2]] # dichiariamo gli elementi che vogliamo utilizzare, quindi il primo elemento [1] e il secondo elemento [2] dell'immagine satellitare
-dvi1992
+dvi1992 #invio il singolo elemento per vedere le informazioni annesse
 
-# plotting the DVI
+# Funzione alternativa:
+# dvi1992 = m1992$matogrosso~2219_lrg_1 - m1992$matogrosso~2219_lrg_2 :lego con il simbolo del $ la prima e seconda banda, ma è molto macchinoso
+
+# plotting the DVI1992
 cl <- colorRampPalette(c("darkblue", "yellow", "red", "black")) (100)
 plot(dvi1992, col=cl)
 
 # rifacciamo la stessa operazione per calcolare il DVI del 2006
-m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
+m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg") #importo e rinomino l'immagine
 # DVI 2006
 dvi2006 = m2006[[1]] - m2006[[2]]
 dvi2006
 
+cl <-colorRampPalette(c("darkblue","yellow","red","black"))(100) #facciamo si che risalti il giallo perchè è uno dei colori che colpisce maggiormente la retina
 plot(dvi2006, col=cl)
 
-# esercizio: plot the dvi1992 beside the dvi2006
+# esercizio: plottiamo il dvi1992 di fianco al dvi2006
 par(mfrow=c(1,2))
 plot(dvi1992, col=cl)
 plot(dvi2006, col=cl)
 
-# Normalized Difference Vegetation Index
+# Normalized Difference Vegetation Index (NDVI = NIR - red/NIR + red = DVI/NIR + red)
 ndvi1992 = dvi1992/(m1992[[1]] + m1992[[2]])
 ndvi2006 = dvi2006/(m2006[[1]] + m2006[[2]])
 
 dev.off()
-par(mfrow=c(1,2))
+par(mfrow=c(1,2)) #plottiamo uno di fianco all'altro NDVI1992 e NDVI2006
 plot(ndvi1992, col=cl)
 plot(ndvi2006, col=cl)
 
