@@ -112,8 +112,8 @@ im.plotRGB(stacksent, 4, 3, 2) # nir on red
 im.plotRGB(stacksent, 3, 4, 2) # nir on green
 im.plotRGB(stacksent, 3, 2, 4) # nir on blue
 
-# Correlation of informations: faccio una nuova funzione, una grande matrice con diversi grafici all'interno, tra cui indice di Pearson etc. 
-pairs(stacksent) 
+# Correlation of informations: correlare tutte le variabili con un solo comando 
+pairs(stacksent) #nuova funzione, ottengo una grande matrice dove ogni colonna corrisponde a una delle bande: vedo diversi grafici (tra cui indice di Pearson) e la diagonale della matrice indica le distribuzioni di frequenza
 
 #Per avere info su una certa immagine, come il numero dei pixel, etc basta scrivere il nome dell'immagine
 b2
