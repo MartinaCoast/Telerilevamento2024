@@ -1,4 +1,4 @@
-# Quantifying land cover change
+# Quantifying land cover change: partendo da un'immagine satellitare, la importiamo, la classfichiamo e poi creereamo dei grafici 
 
 # Installo di un nuovi pacchetti necessari
 install.packages("ggplot2") 
@@ -11,7 +11,7 @@ library(terra)
 library(imageRy)
 
 # Listing images
-im.list() # Elenco delle immagini presenti nel pacchetto
+im.list() # Elenco delle immagini presenti nel pacchetto imageRy
 
 # Importing data: importo dell'immagine solar orbiter, rinominandola
 sun <- im.import("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg") # Nero è il livello energetico più basso, giallo livello energetico più alto
@@ -32,30 +32,33 @@ m1992c <- im.classify(m1992, num_cluster=2)
 m2006c <- im.classify(m2006, num_cluster=2)
 #class 1 = forest
 #class 2 = human modification = suolo nudo
-# attenzione che le classi potrebbero invertirsi tra 1992 e 2006, è random
+#ATTENZIONE: le classi potrebbero invertirsi tra 1992 e 2006, è random
 
 # Controllo delle due immagini per avere conferma
 plot(m1992c)
 plot(m2006c)
 
-# Calculating frequencies Mato Grosso 1992: conteggio dei pixel in ogni classe
+# Calculating frequencies: calcolare i pixel relativi ai 2 cluster, per poter cosi calcolare la percentuale di pixel
+# Mato Grosso 1992
 f1992 <- freq(m1992c)
-f1992 # vedo il conteggio dei pixel relativi ai 2 cluster
+f1992 # visualizzo il conteggio (o numero) dei pixel relativi ai 2 cluster (o classi)
 
-# Proportions dei pixel dei due cluster col totale
-tot1992 <- ncell(m1992c) # vedo totale dei pixel
+# Proporzione tra numero dei pixel dei cluster e il totale
+tot1992 <- ncell(m1992c) # vedo totale dei pixel, che mi serve per poter fare la proporzione
+tot1992
+
 prop1992 = f1992 / tot1992 # proporzione tra i pixel dei due singoli cluster e i pixel totali
 prop1992
 
-# Percentuali:
+# per ottenere la percentuale:
 perc1992 = prop1992 * 100
 perc1992 
-# Percentages Mato Grosso 1992: forest = 83%, human = 17%
+# Risultato Percentages Mato Grosso 1992: forest = 83%, human = 17%
 
-# Calculating frequencies Mato Grosso 2006: facciamo la stessa cosa di prima ma per l'immagine del 2006
+# Mato Grosso 2006: facciamo la stessa cosa di prima ma per l'immagine del 2006
 f2006 <- freq(m2006c)
 f2006
-tot2006 <- ncell(m2006c) # Totale dei pixel
+tot2006 <- ncell(m2006c) # Totale dei pixel dei cluster dell'immagine del 2006
 
 # Proportions
 prop2006 = f2006 / tot2006 
@@ -66,6 +69,7 @@ perc2006 = prop2006 * 100
 perc2006
 # Percentages Mato Grosso 2006: forest = 45%, human = 55%
 
+# RISULTATI
 # 1992: 17% human, 83% forest
 # 2006: 55% human, 45% forest
 
@@ -89,7 +93,7 @@ ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", f
 ggplot(tabout, aes(x=class, y=y2006, color=class)) + geom_bar(stat="identity", fill="white")
 
 # Patchwork: mettiamo insieme i due grafici ottenuti
-# Installo e richiamo il pacchetto
+# Installo e richiamo il pacchetto patchwork
 
 # Assegniamo a p1 e p2 i due ggplot
 p1 <- ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", fill="white")
@@ -101,4 +105,4 @@ p1 + p2 # Visualizzo i due grafici affiancati, ma hanno scala diversa!
 p1 <- ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
 p2 <- ggplot(tabout, aes(x=class, y=y2006, color=class)) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
 
-p1 + p2 # Adesso si vede giusto il confronto tra le immagini 1992 e 2006
+p1 + p2 # Adesso si vede bene il confronto tra le immagini 1992 e 2006
