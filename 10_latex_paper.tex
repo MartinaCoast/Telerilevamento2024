@@ -1,0 +1,140 @@
+\documentclass[12pt]{article} %spiega che tipo di documento realizziamo
+\usepackage{graphicx} %pacchetto per inserire le immagini
+\usepackage{hyperref} %pacchetto per creare un collegamento ipertestuale
+\usepackage{natbib} %pacchetto per fare la bibliografia
+\usepackage{lineno} %pacchetto per visualizzare i numeri di riga
+\linenumbers %questo non ho capito a cosa serve
+
+
+\title{My first LaTeX doc} %titolo del documento
+\author{Martina Costa}
+% \date{May 2024} %data del nostro documento, per rimuoverla o tolgo il contenuto tra parentesi o la mantengo come commmento
+
+\begin{document}
+
+\maketitle %prende tutti i pezzi scritti sopra e li mette all'inizio del documento
+
+\begin{abstract} % per inserire l'abstract
+    Il nome generico (Helianthus) deriva da due parole greche: ”helios” (= sole) e ”anthos” (= fiore) in riferimento alla tendenza della pianta a girare sempre il bocciolo verso il sole, 
+    prima della fioritura (il fiore maturo invece è sempre rivolto ad est). Questo comportamento è noto come eliotropismo.
+
+L'epiteto specifico (annuus) indica il tipo di ciclo biologico (annuale). Anche il nome comune italiano (Girasole) richiama la rotazione dei boccioli in direzione del sole. 
+Il termine “girasole” è anche usato per indicare le altre piante appartenenti al genere "Helianthus", molte delle quali sono perenni.
+\end{abstract}
+
+\tableofcontents %funzione per inserire il sommario
+
+\section{Introduction} \label{sec:intro} %cosi gli dico che introduzione è una sezione! se sbagliassi a dare il nome alla label quando ricompilo mi mette ?? perchè non ho dato lo stesso nome a label e ref in fondo nella discussione
+\textbf{Hello darkness, my old friend} %per mettere il testo in grassetto
+\textit{I've come to talk with you again} %per mettere il testo in corsivo it = italic
+Because a vision softly creeping
+Left its seeds while I was sleeping
+And the vision that was planted in my brain
+Still remains
+Within the sound of silence.
+
+\bigskip % per lasciare una riga vuota grande OPPURE doppio backslash \\
+
+In restless dreams I walked alone
+Narrow streets of cobblestone
+'Neath the halo of a street lamp
+I turned my collar to the cold and damp
+When my eyes were stabbed by the flash of a neon light
+That split the night
+And touched the sound of silence.
+
+\smallskip % lascia sempre una riga vuota ma un po' più stretta
+
+And in the naked light I saw
+Ten thousand people, maybe more
+People talking without speaking
+People hearing without listening
+People writing songs that voices never share
+No one dared
+Disturb the sound of silence.
+
+In this thesis we deal with love in fourth dimension, one of the main themes in life \cite{Berscheid2010}. We are very intereste in space shuttle \citep{Paul2013}.
+
+% \citep{Paul2013} se voglio mettere tutta la citazione tra parentesi, 
+% \citet{Paul2013} mette tra parentesi solo l'anno
+% \cite{Paul2013} di default mi mette tra parentesi l'anno
+
+%NUOVA SEZIONE DEI METODI
+\section{Methods}
+\subsection{Srudy area}
+\subsection{Algorithms}
+
+%per scrivere un'EQUAZIONE:
+The first equation used was Equation \ref{eq:sum}:
+\begin{equation} %inizio dell'eq
+    T = \sum p_i
+    \label{eq:sum} %attribuiamo un'etichetta all'eq per fare riferimenti
+\end{equation} %fine dell'eq
+
+\noindent In this thesis we made use of Equation \ref{eq:newton}:
+\begin{equation}
+    F = \sqrt[3]{G \frac{m_1 \times m_2}{d^2}} %\sqrt per mettere sotto radice
+    \label{eq:newton}
+\end{equation}
+
+
+\section{Results}
+Our results are in line with previous papers, introduced in section \ref{sec:intro}. % cosi visto che prima avevamo dato un'etichetta all'introduzione adesso mi basta usare il ref e quando ricompilo mi aggiunge il colelgamento con la sezione
+
+In this thesis one of the plant used was Figure \ref{sun}.
+\footnote{sunflower from italy} %note a pie di pagina
+
+\section{Discussion}
+% ELENCO PUNTATO
+\begin{itemize}
+    \item love is important
+    \item expecially in the fouth dimension
+    \item ecc ecc
+\end{itemize}
+
+%ELENCO NUMERATO
+\begin{enumerate}
+    \item  ciao
+    \item giovedi
+    \item albero
+\end{enumerate}
+
+\section{Data availability}
+All the data used in this thesis are available at:
+\url{https://www.nasa.gov/} % funzione per inserire un link
+
+\newpage % per inserire una nuova pagina
+\begin{figure}
+    \centering %per centrare l'immagine nella pagina
+    \includegraphics[width=\textwidth]{sun.jpg}  %così l'immagine viene larga quanto il testo. Se volessimo farlo la metà, basterebbe scrivere width=0.5
+    \caption{Helianthus annuus} %didascalia dell'immagine
+    \label{sun}
+\end{figure}
+
+%inserire bibliografia
+\begin{thebibliography}{999} %questo è un tipo di bibliografia
+\bibitem[Berscheid, 2010]{Berscheid2010} % quella tra graffe è la label o etichetta, quella tra quadre è come verrà visualizzata nel testo
+    Berscheid, E. (2010). Love in the fourth dimension. Annual review of psychology, 61, 1-25. %poi sotto copio la citazione come la metterei nell'elenco
+
+\bibitem[Paul, 2013]{Paul2013}
+Paul, A. L., Wheeler, R. M., Levine, H. G., \& Ferl, R. J. (2013). Fundamental plant biology enabled by the space shuttle. American journal of botany, 100(1), 226-234.
+\end{thebibliography} 
+%ho messo un \ prima della e commerciale & perchè per latex è un simbolo, con la \ lo proteggo e non glielo faccio leggere come simbolo
+
+\newpage
+\bigskip
+% per inserire un box con altre info che mi potrebbero servire
+\hline
+\textbf{Box 1 - ciao}
+\bigskip
+\hline %disegna una linea orizzontale
+
+\begin{itemize}
+\item hola
+\item fiore
+\item roccia
+\end{itemize}
+\bigskip
+\hline
+
+\end{document}
