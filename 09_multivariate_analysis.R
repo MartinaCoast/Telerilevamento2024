@@ -1,11 +1,11 @@
 #ANALISI MULTIVARIATA
 
-#RecupeRO i pacchetti:
+#Recuperiamo i pacchetti:
 library(terra)
 library(imageRy)
 library(viridis)
 
-#Apro la lista di dati e uso le immagini delle dolomiti:
+#Apriamo la lista di dati e usiamo le immagini delle dolomiti:
 im.list()
 
 #Importazione dei dati:
@@ -27,9 +27,9 @@ im.plotRGB(sentdo, r=3, g=4, b=2) # in questo caso banda 3 montata su rosso, ban
 pairs(sentdo)
 
 #PCA: portare un sistema da n bande ad una banda sola
-pcimage <- im.pca(sentdo) # PERCHè VEDO SOLO 3 IMMAGINI? NON ERANO 4?
+pcimage <- im.pca(sentdo) #PERCHè VEDO SOLO 3 IMMAGINI? NON ERANO 4?
 
-# Per avere totale della deviazione standard di tutto il sistema fai la somma dei range di ogni asse
+#Per avere totale della deviazione standard di tutto il sistema fai la somma dei range di ogni asse
 tot <- sum(1429.92581, 616.51606, 72.69737, 31.05157) # HO PRESO I VALROI GIUSTI??
 
 #DA QUI IN POI SE I VALORI SONO SBAGLIATI LE PERCENTUALI NON SONO QUELLE!!
@@ -45,7 +45,7 @@ tot <- sum(1429.92581, 616.51606, 72.69737, 31.05157) # HO PRESO I VALROI GIUSTI
 #Per avere la percentuale della variabilità spiegata dalla quarta componenete:
 32.75954 * 100/tot #circa 1.5%
 
-#Plottiamo usando viridis:
+#plottiamo usando viridis:
 vir <- colorRampPalette(viridis(7))(100)
 
 plot(pcimage, col=vir) #NON HO CAPITO
