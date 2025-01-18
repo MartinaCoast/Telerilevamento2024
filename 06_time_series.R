@@ -25,7 +25,7 @@ col <- colorRampPalette(c("blue", "white", "red"))(100) # scelgo la banda di col
 plot(difEN, col=col)
 
 
-
+#### nuova analisi
 #Ice melt in Grenland
 g2000 <- im.import("greenland.2000.tif") #importiamo immagine della Groenlandia del 2000
 clg<-colorRampPalette(c("black","blue","white","red")) (100) # chiamo questa palette diversamente da prima: nero sono le T pià basse, rosso le T più alte
