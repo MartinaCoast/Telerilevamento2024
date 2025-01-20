@@ -7,6 +7,11 @@
 
 #colori viridis cosi faccio vedere anche a marci
 
-library(terra)
-library(viridis)
+library(terra) #per lavorare con immagini satellitari
+library(viridis) #per utilizzare colori per daltonici, Colorblind-Friendly Color Maps for R
+library(ggplot2) #Create Elegant Data Visualisations Using the Grammar of Graphics
+library(patchwork) #per mettere insieme più plot/the composer of plots
+
+
+
 
