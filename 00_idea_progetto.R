@@ -7,6 +7,6 @@
 
 #colori viridis cosi faccio vedere anche a marci
 
-
+library(terra)
 library(viridis)
 
