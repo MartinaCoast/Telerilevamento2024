@@ -1,13 +1,105 @@
+% COME CREARE UNA PRESENTAZIONE IN LATEX
+
 \documentclass{beamer} % beamer è il tipo di domcumento per la presentazione
 \usepackage{graphicx} % Required for inserting images
 
-% sito per info cambio tema: https://mpetroff.net/files/beamer-theme-matrix/
-% per cambiare tema
-\usetheme{Frankfurt}
-% per cambiare colore di tema
-\usecolortheme{crane}
-
+% per cambiare colore e tema della presentazione vai qui e cerca il tuo preferito: https://mpetroff.net/files/beamer-theme-matrix/
+\usetheme{Frankfurt} % per cambiare tema
+\usecolortheme{crane} % per cambiare colore di tema
 
 \title{My first presentation}
 \author{Martina Costa}
 %\date{May 2024}
+
+\begin{document}
+
+\maketitle
+
+% inseriamo un sommario delle slide
+\AtBeginSection[] % Do nothing for \section*
+{
+\begin{frame}{Outline}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\section{Introduction}
+
+% aggiungere una diapositiva "frame"  
+\begin{frame}{My firts slide}
+    My first slide
+\end{frame}
+
+% ELENCO PUNTATO
+\begin{frame}{Itemization}
+    \begin{itemize}
+        \item My first sentence
+        \item \pause My second one % \pause serve per inserire una sorta di animazione e mi fa comparire il secondo punto in un secondo momento
+        \item \pause My third one here
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{My second slide}
+    My second slide
+\end{frame}
+
+% ELENCO PUNTATO
+\begin{frame}{Itemization}
+    \begin{itemize}
+        \item \scriptsize {Uno} % scriptsize è uno dei comandi per la dimensione del testo, in questo caso rimpicciolisce, cerca su internet la lista dei comandi per le dimensioni del testo
+        \item \large {Due} % large comando per ingrandire il testo, esiste anche huge
+        \item Tre
+    \end{itemize}
+\end{frame}
+
+% per mettere in GRASSETTO/CORSIVO una parola: o la seleziono e poi clicco in alto come su world, oppure c'è il comando \textit per il corsivo e \textbf per il grassetto e metto la parola che devo modificare tra {}
+
+\section{Formulas}
+\begin{frame}{Formulas used}
+In questa tesi abbiamo usato la deviazione standard:
+\bigskip % mi mette uno spazio tra testo e formula, posso anche usare \smallskip
+    \begin{equation} %per i simboli puoi sempre cercare su internet la lista dei comandi e impostazioni varie. \sum è il comando che mi inserisce la sommatoria e il pezzettino dopo sum lo uso per mettergli i limiti, \frac è quello per la divisione/rapporto e metto tra {} numeratore e denominatore, \sqrt invece è per la radice quadrata
+        \delta = \sqrt{\frac{\displaystyle\sum_{i=1}^N (x - \mu)^2}{N}} %metto il simbolo \ prima del mu e me lo rende in lettere greche, stessa cosa metto \delta
+        %\displaystyle lo uso per mettere i limiti della sommarotia sopra e sotto il simbolo, quindi rende tutto più bello esteticamente
+    \end{equation}
+\end{frame}
+
+\section{Results}
+
+% inseriamo immagine
+\begin{frame}{Archived results} %poi da qui vado nei 3 puntini in alto e faccio insert figure, mi mette in automatico questa roba, elimino la roba che non mi serve come \label e \caption
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{graf.png}  % Solitamente è bene usare 0.9 o anche solo .9 perchè si adatta bene a tutto
+% aggiungo \raggedright e \raggedleft per spostare a dx o a sx
+    \end{figure}
+\end{frame}
+
+% inserire due figure una di fianco all'altra: ricopio il pezzo di prima e aggiugno questo
+\begin{frame}{Due immagini vicine} 
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\linewidth]{graf.png} 
+        \pause \includegraphics[width=0.4\linewidth]{graf.png} %ho messo \pause per inserirre un'animazione per l'immagine
+    \end{figure}
+\end{frame}
+
+% metto quattro immagini vicine, due sopra e due sotto
+\begin{frame}{quattro immagini vicine} % anche qui per le immagini posso inserire \pause e farle comparire una alla volta
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.3\linewidth]{graf.png} 
+        \includegraphics[width=0.3\linewidth]{graf.png} \\ % doppio backslash per andare a capo
+        \includegraphics[width=0.3\linewidth]{graf.png}
+        \includegraphics[width=0.3\linewidth]{graf.png}
+    \end{figure}
+\end{frame}
+
+% per inserire un testo con font courier tipico dei linguaggi di programmazione informatica
+\begin{frame}{Courier}
+    In this project we made use of the R package
+    \texttt{imageRy} %imageRy mi viene scritto con quel font
+\end{frame}
+
+
+\end{document}
