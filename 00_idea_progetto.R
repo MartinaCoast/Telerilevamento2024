@@ -8,5 +8,5 @@
 #colori viridis cosi faccio vedere anche a marci
 
 
-
+library(viridis)
 
