@@ -39,7 +39,8 @@ plot(b4, col=clcyan)
 b8 <- im.import("sentinel.dolomites.b8.tif")
 plot(b8, col=clcyan)
 
-# ho importato le 4 bande: b2 blu, b3 verde, b4 rosso e b8 infrarosso
+# ho importato le 4 bande: b2 blu, b3 verde, b4 rosso e b8 infrarosso.
+# NB: i colori del sistema RGB corrispondono a queste bande solo per il satellite Sentinel!!
 
 # Multiframe
 # creiamo 2 righe e 2 colonne per posizionare i grafici delle 4 bande
