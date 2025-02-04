@@ -15,6 +15,16 @@ library(imageRy) #mi serve per fare la classificazione e il plotting delle immag
 
 setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/2017-2024")
 
+#SATELLITE LANDSAT:
+# banda 1 = blu
+# banda 2 = verde
+# banda 3 = rosso
+# banda 4 = nir
+
+
+
+
+
 #mettiamo banda 1=rosso, banda 2 è verde, banda 3 è blu, banda 4 è nir
 r17 <- rast("r17.tiff")
 g17 <- rast("g17.tiff")
