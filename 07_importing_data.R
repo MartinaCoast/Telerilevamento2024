@@ -8,7 +8,7 @@ library(imageRy)
 #importiamo l'immagine: la funzione setwd (= setworking directory) serve per far capire ad R da dove prendere l'immagine
 setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico") # tra virgolette copio il percorso della mia immagine, ma cambio il verso delle barre
 
-#usiamo funzione rast che serve per creare raster spaziali (sono oggetti)
+#usiamo funzione rast che serve per creare raster spaziali (sono oggetti), e assegnamo l'immagine all'oggetto eclissi
 eclissi <- rast("eclissi.png")
 
 #richiamo l'immagine per vedere le informazioni annesse
@@ -49,5 +49,5 @@ plot(soil[[1]])
 ext <- c(25, 30, 55, 58) # definisco l'estensione, quindi inserisco gli estremi: x min, x max (i primi due valori) e y min e y max (terzo e quarto valore)
 soilcrop <- crop(soil, ext) # faccio un crop dell'immagine e gli do un nome diverso, quindi associo all'immagine soil l'estensione che voglio
 
-#plottiamo la nuova immagine
+#plottiamo la nuova immagine, il ritaglio
 plot(soilcrop)
