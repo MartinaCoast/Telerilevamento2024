@@ -1,8 +1,8 @@
 # Spectral indicies
 
 # Riprendo i pacchetti che mi servono
-library (terra)
-library (imageRy)
+library(terra)
+library(imageRy)
 
 # vediamo la lista di dati del pacchetto imageRy
 im.list()
@@ -10,7 +10,7 @@ im.list()
 # importiamo l'immagine del Matogrosso del 1992 e le diamo un nuovo nome
 m1992 <- im.import ("matogrosso_l5_1992219_lrg.jpg") ##il nome del file è così perchè ha corrispondenza con il sito EarthObservatory o con Nasa Visible Earth
 
-# Bande
+# Bande dell'immagine importata
 # banda 1 = NIR = infrarosso
 # banda 2 = red
 # banda 3 = green
@@ -84,6 +84,7 @@ plot(dvi1992, col=cl)
 plot(dvi2006, col=cl)
 
 # Normalized Difference Vegetation Index (NDVI = NIR - red/NIR + red = DVI/NIR + red)
+# E' usato se le immagini hanno bit differenti ed è quindi necessaria una normalizzazione
 ndvi1992 = dvi1992/(m1992[[1]] + m1992[[2]])
 ndvi2006 = dvi2006/(m2006[[1]] + m2006[[2]])
 
@@ -91,7 +92,8 @@ dev.off()
 par(mfrow=c(1,2)) #plottiamo uno di fianco all'altro NDVI1992 e NDVI2006
 plot(ndvi1992, col=cl)
 plot(ndvi2006, col=cl)
+# il range NON è in funzione della radiazione radiometrica ma va da -1 a +1
 
-# speediing up calculation
+# speediing up calculation: in imageRy è presente una funzione che mi semplifica il calcolo
 ndvi2006a <- im.ndvi(m2006, 1, 2) # è la stessa cosa che ho appena fatto, semplicemente questa è una funzione dentro al pacchetto di imageRy, dove 1 e 2 rappresentano sempre le bande NIR e RED
 plot(ndvi2006a, col=cl)
