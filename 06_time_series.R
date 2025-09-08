@@ -17,7 +17,7 @@ par(mfrow=c(2,1))
 im.plotRGB.auto(GENNAIO) # la funzione con l'aggiunta di "auto" prende direttamente le prime tre bande e fa tutto in automatico; aggiungiamo la prima immagine
 im.plotRGB.auto(MARZO) # aggiungo la seconda immagine
 
-# osserviamo la differenza tra le due immagini satellitari
+# osserviamo la differenza tra le due immagini satellitari: #Sottrazione tra pixel del primo livello di GENNAIO e pixel del primo livello di MARZO. C'è l'uguale perchè si tratta di un'operazione matematica.
 difEN = GENNAIO[[1]] - MARZO[[1]] # Sottrazione tra pixel del primo livello di GENNAIO e pixel del primo livello di MARZO
 col <- colorRampPalette(c("blue", "white", "red"))(100) # scelgo la banda di colori, quindi blu è il valore minimo e rosso il valore massimo
 
