@@ -1,19 +1,29 @@
 # Satellite data visualisation in R by imageRy
 
+# Richiamiamo i pacchetti utilizzati
 library(terra)
 library(imageRy)
 
-# list of all data available in imageRy
+# Lista di tutti i dati dispoibili in imageRy
 im.list()
 
-# Importing data
-# assegnamo all'importazione il nome mato per semplicficare e importiamo l'immagine tra virgolette
+# Importing data 
+im.import("matogrosso_ast_2006209_lrg.jpg")
+# assegnamo all'importazione il nome mato per semplificare e importiamo l'immagine tra virgolette
 mato <- im.import("matogrosso_ast_2006209_lrg.jpg") #abbiamo importato la nostra immagine
+
+#Provo a plottare i dati
+plot(mato)
+
+#Importiamo un'immagine formata da una singola banda con lo stesso procedimento
 b2 <- im.import("sentinel.dolomites.b2.tif") #importo l'immagine sentinel b2: ho importatato l'immagine di cui visualizzo la banda 2 che corrisponde a tutto ciò che riflette nel blu
 
 #mettiamo la c per concatenarli, metterli tutti insieme
 # con la funzione colorRampPalette posso cambiare i colori
 # il 3 mi serve per deteminare quante sfumature uso, potrei mettere anche 100 e viene più dettagliato
+colorRampPalette(c("black", "grey", "light grey"))(3)
+
+#Assegno l'immagine importata con i colori modificati all'oggetto clg
 clg <- colorRampPalette(c("black", "grey", "light grey"))(3)
 
 # Plotting the data: per plottare i dati relativi alle immagini che ho
@@ -26,7 +36,7 @@ plot(b2, col=clcyan)
 clcyan <- colorRampPalette(c("magenta", "cyan4", "cyan", "chartreuse"))(100) #imposto tante sfumature per avere un'immagine più dettagliata
 plot(b2, col=clcyan)
 
-# Importing the additional bands "sentinel.dolomites.b2.tif" "sentinel.dolomites.b3.tif" "sentinel.dolomites.b4.tif" "sentinel.dolomites.b8.tif"  
+# Importiamo anche le altre bande: "sentinel.dolomites.b2.tif" "sentinel.dolomites.b3.tif" "sentinel.dolomites.b4.tif" "sentinel.dolomites.b8.tif"  
 # Importiamo la banda del verde, la numero 3
 b3 <- im.import("sentinel.dolomites.b3.tif")
 plot(b3, col=clcyan)
@@ -42,7 +52,7 @@ plot(b8, col=clcyan)
 # ho importato le 4 bande: b2 blu, b3 verde, b4 rosso e b8 infrarosso.
 # NB: i colori del sistema RGB corrispondono a queste bande solo per il satellite Sentinel!!
 
-# Multiframe
+# Multiframe: lo creiamo con la funzione par(mf)
 # creiamo 2 righe e 2 colonne per posizionare i grafici delle 4 bande
 par(mfrow=c(2,2)) # ho creato l'impalcatura, devo inserire le immagini ancora
 
@@ -61,7 +71,7 @@ plot(b3, col=clcyan)
 plot(b4, col=clcyan)
 plot(b8, col=clcyan)
 
-# Componiamo un'immagine satellitare sovrapponendo le 4 bande
+# Componiamo un'immagine satellitare MULTISPETTRALE sovrapponendo le 4 bande
 stacksent<- c(b2, b3, b4, b8) #creo un vettore con le diverse bande e lo assegno all'oggetto stacksent
 plot(stacksent, col=clcyan)
 
@@ -97,7 +107,7 @@ im.plotRGB(stacksent, 4, 3, 2) #il risultato sarà uguale a quello nella riga 84
 # verifichiamo con un par
 par(mfrow=c(1,3))
 im.plotRGB(stacksent, 3, 2, 1) #colori naturali
-im.plotRGB(stacksent, 4, 2, 1) #infrarosso al posto del rosso
+im.plotRGB(stacksent, 4, 2, 1) #infrarosso al posto del rosso, mantenendo le altre due bande
 im.plotRGB(stacksent, 4, 3, 2) #cambio anche le altre due bande togliendo il blu
 
 #provo altre combinazioni
@@ -108,10 +118,10 @@ im.plotRGB(stacksent, 3, 2, 4) #infrarosso al posto del blu: per evidenziare il 
 
 # esercizio final multiframe: metti le 4 immagini insieme
 par(mfrow=c(2,2)) #potevo anche mettere tutte le immagini sulla stessa riga (1,4)
-im.plotRGB(stacksent, 3, 2, 1) # natural colors
-im.plotRGB(stacksent, 4, 3, 2) # nir on red
-im.plotRGB(stacksent, 3, 4, 2) # nir on green
-im.plotRGB(stacksent, 3, 2, 4) # nir on blue
+im.plotRGB(stacksent, 3, 2, 1) # colori naturali
+im.plotRGB(stacksent, 4, 3, 2) # nir su rosso
+im.plotRGB(stacksent, 3, 4, 2) # nir su verde
+im.plotRGB(stacksent, 3, 2, 4) # nir su blu
 
 # Correlation of informations: correlare tutte le variabili con un solo comando 
 pairs(stacksent) #nuova funzione, ottengo una grande matrice dove ogni colonna corrisponde a una delle bande: vedo diversi grafici (tra cui indice di Pearson) e la diagonale della matrice indica le distribuzioni di frequenza
