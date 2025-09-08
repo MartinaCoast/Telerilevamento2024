@@ -1,16 +1,21 @@
 #IDEA PROGETTO
 
-#Villaggio di Blatten in svizzera estate 2024-estate 2025, pre e post crollo ghiacciaio del Birch
-#ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN, SVIZZERA
-#colori viridis cosi faccio vedere anche a marci
+# Villaggio di Blatten in svizzera estate 2024-estate 2025, pre e post crollo ghiacciaio del Birch
+# ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN, SVIZZERA
+# colori viridis cosi faccio vedere anche a marci
 
-#Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
+# Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
 install.packages("terra") #per lavorare con le immagini satellitari
 install.packages("ggplot2") #Create Elegant Data Visualisations Using the Grammar of Graphics
 install.packages("patchwork") #per mettere insieme più plot/the composer of plots
 install.packages("viridis") #per utilizzare colori per daltonici, Colorblind-Friendly Color Maps for R
 
+# Installo la funzione devtools, presente sul CRAN, necessaria per scaricare il prossimo pacchetto
+install.packages("devtools")
+library(devtools)
+
 # Installo il pacchetto imageRy, esterno al CRAN e presente su GitHub
+# Questo pacchetto mi serve per scaricare più velocemente le immagini
 
 
 # Richiamo i pacchetti
