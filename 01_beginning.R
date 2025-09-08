@@ -6,7 +6,7 @@ b <- 5*8
 
 a+b
 
-# Arrays
+# Arrays: per crearli devo inserire il simbolo di assegnazione <-c()
 
 flowers <- c(3, 6, 8, 10, 15, 18)
 flowers
