@@ -1,5 +1,9 @@
 # Quantifying land cover change: partendo da un'immagine satellitare, la importiamo, la classfichiamo e poi creereamo dei grafici 
 
+#Come quantificare la foresta presente? Posso usare 2 modalità:
+# -	Fare una classificazione: prendendo un’immagine, insegniamo al sistema le due classi di nostro interesse ( es. vegetazione e suolo nudo) e si fa una proporzione tra le due classi
+# -	Differenza tra gli indici DVI calcolati
+
 # Installo di un nuovi pacchetti necessari
 install.packages("ggplot2") 
 install.packages("patchwork")
@@ -17,9 +21,9 @@ im.list() # Elenco delle immagini presenti nel pacchetto imageRy
 sun <- im.import("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg") # Nero è il livello energetico più basso, giallo livello energetico più alto
 
 # Classificazione dell'immagine secondo 3 cluster randomici: classifichiamo i diversi livelli energetici del sole
-sunc <- im.classify(sun, num_clusters=3) # raggruppo i pixel dell'immagine in soli 3 colori scelti da R in modo random in questo caso
+sunc <- im.classify(sun, num_clusters=3) # tra parentesi ho il nome dell'immagine e il numero di cluster che voglio: raggruppo i pixel dell'immagine in soli 3 colori scelti da R in modo random in questo caso
 
-# Mato Grosso images import: importiamo le due immagini rinominandole
+# Mato Grosso images import: importiamo le due immagini del Mato Grosso rinominandole
 m1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
 m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
 
@@ -38,7 +42,7 @@ m2006c <- im.classify(m2006, num_cluster=2)
 plot(m1992c)
 plot(m2006c)
 
-# Calculating frequencies: calcolare i pixel relativi ai 2 cluster, per poter cosi calcolare la percentuale di pixel
+# Calculating frequencies: adesso voglio calcolare le FREQUENZE, quindi calcolare i pixel relativi ai 2 cluster, per poter cosi calcolare la percentuale di pixel
 # Mato Grosso 1992
 f1992 <- freq(m1992c)
 f1992 # visualizzo il conteggio (o numero) dei pixel relativi ai 2 cluster (o classi)
@@ -84,7 +88,7 @@ tabout # visualizzazione del dataframe
 # Per vedere la tabella
 view(tabout)
 
-# Grafico: creazione grafico a barre che evidenzia le due percentuali
+# Grafico: creazione grafico a barre che evidenzia le due percentuali, grafico per il 1992
 ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", fill="white")
 #aes = aestethic riguarda la struttura del grafico, attribuiamo assi e colori classificati
 #con la prima parte abbiamo un pezzo di funzione, per fare il grafico dobbiamo aggiungere + geom_bar: è un tipo di geometria cioè le barre dell'istogramma, con identity usiamo il valore così com'è
@@ -94,6 +98,7 @@ ggplot(tabout, aes(x=class, y=y2006, color=class)) + geom_bar(stat="identity", f
 
 # Patchwork: mettiamo insieme i due grafici ottenuti
 # Installo e richiamo il pacchetto patchwork
+library(patchwork)
 
 # Assegniamo a p1 e p2 i due ggplot
 p1 <- ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", fill="white")
