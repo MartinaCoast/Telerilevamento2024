@@ -1,29 +1,40 @@
 #IDEA PROGETTO
 
-#zona dietro casa nel 2001 quando ci siamo trasferiti
-#zona dietro casa subito dopo la costruzione del museo
-#zona dietro casa  2024
-#focus su prato di fianco a casa, prima della tesi e adesso
-
+#Villaggio di Blatten in svizzera estate 2024-estate 2025, pre e post crollo ghiacciaio del Birch
+#ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN, SVIZZERA
 #colori viridis cosi faccio vedere anche a marci
 
-library(terra) #per lavorare con immagini satellitari
-library(viridis) #per utilizzare colori per daltonici, Colorblind-Friendly Color Maps for R
-library(ggplot2) #Create Elegant Data Visualisations Using the Grammar of Graphics
-library(patchwork) #per mettere insieme più plot/the composer of plots
+#Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
+install.packages("terra") #per lavorare con le immagini satellitari
+install.packages("ggplot2") #Create Elegant Data Visualisations Using the Grammar of Graphics
+install.packages("patchwork") #per mettere insieme più plot/the composer of plots
+install.packages("viridis") #per utilizzare colori per daltonici, Colorblind-Friendly Color Maps for R
+
+# Installo il pacchetto imageRy, esterno al CRAN e presente su GitHub
+
+
+# Richiamo i pacchetti
+library(terra) 
+library(viridis) 
+library(ggplot2) 
+library(patchwork) 
 library(imageRy) #mi serve per fare la classificazione e il plotting delle immagini
 
-setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/2017-2024")
-
-#SATELLITE LANDSAT:
-# banda 1 = blu
-# banda 2 = verde
-# banda 3 = rosso
-# banda 4 = nir
+setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/ghiacciaio")
 
 
 
 
+
+
+
+
+
+#SATELLITE SENTINEL-2: 
+# banda 2 = blu
+# banda 3 = verde
+# banda 4 = rosso
+# banda 8 = nir
 
 #mettiamo banda 1=rosso, banda 2 è verde, banda 3 è blu, banda 4 è nir
 r17 <- rast("r17.tiff")
