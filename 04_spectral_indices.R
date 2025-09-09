@@ -11,22 +11,23 @@ im.list()
 m1992 <- im.import ("matogrosso_l5_1992219_lrg.jpg") ##il nome del file è così perchè ha corrispondenza con il sito EarthObservatory o con Nasa Visible Earth
 
 # Bande dell'immagine importata
-# banda 1 = NIR = infrarosso
+# banda 1 = NIR = infrarosso (perchè vedo tutto rosso nel momento in cui importo l'immagine, quindi al posto del rosso c'è l'infrarosso, tutto ciò che riflette l'infrarosso (quindi la vegetazione) risulterà rossa)
 # banda 2 = red
 # banda 3 = green
+# In questo caso la foresta risulta rossa, mentre le zone senza vegetazione risultano rosa
 
 # facciamo dei plot con la funzione im.plotRGB
 im.plotRGB(m1992, r=1, g=2, b=3)  # posso anche non mettere lettera=, è la stessa cosa
-#vediamo foresta pluviale in rosso nel 1992: acqua non appare nera perchè è presente grande quantità di sedimento
+#NIR al posto del rosso, vediamo foresta pluviale in rosso nel 1992: acqua non appare nera perchè è presente grande quantità di sedimento, zone senza vegetazione appaiono azzurre
 
-# mettiamo infrarosso NIR sul verde
-im.plotRGB(m1992, 2, 1, 3) #le parti in rosa sono zone di suolo nudo, ossia distrutte dalla deforestazione
+# mettiamo infrarosso NIR sul verde der visualizzare la vegetazione
+im.plotRGB(m1992, 2, 1, 3) #le parti in rosa (complementare del verde) sono zone di suolo nudo, ossia distrutte dalla deforestazione, NO vegetazione
 
-# mettiamo infrarosso NIR sul blu: cosi risultano gialle le zone più colpite dalla deforestazione
+# mettiamo infrarosso NIR sul blu: cosi risultano gialle le zone più colpite dalla deforestazione, mentre la vegetazione è blu
 im.plotRGB(m1992, 2, 3, 1) #la geometria che appare in giallo è euclidea, quindi antropogenica
 
 # Importiamo l'immagine del Matogrosso del 2006, nominandola
-m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
+m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg") #qui vegetazione è rossa e zone deforestate sono grigie-rosa
 
 # Faccio un par tra 1992 e 2006 con 1 riga e 2 colonne
 par(mfrow=c(1,2))
@@ -36,10 +37,10 @@ im.plotRGB(m2006, 1, 2, 3) #la foresta è distrutta
 dev.off() #cancello il plot
 
 # Mettiamo NIR su verde
-im.plotRGB(m2006, 2, 1, 3) #aumenta molto il rosa: soprattutto a sud, tutto è distrutto
+im.plotRGB(m2006, 2, 1, 3) #aumenta molto il rosa: soprattutto a sud, tutto è distrutto, mentre vegetazione la vedo verde
 
 # Mettiamo NIR su blu
-im.plotRGB(m2006, 2, 3, 1)
+im.plotRGB(m2006, 2, 3, 1) #qui vegetazione visualizzata in blu e deforestazione in giallo (complementare)
 
 # Mettiamo a confronto le due situazioni banda per banda, unendo tutte le 6 immagini su 2 righe e 3 colonne
 par(mfrow=c(2,3))
