@@ -30,10 +30,13 @@ setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/gh
 
 
 
-#SCARICO IMMAGINI DA COPERNICUS BROWSER
+#SCARICO IMMAGINI DA COPERNICUS BROWSER: o scarico immagine unica o le 4 bande e poi faccio stacksent
 #per evidenziare la vegetazione nel prima e dopo sostituisco il R nel livello 3 con il NIR perchè la vegetazione riflette il NIR e così risulterà rossa
 
-
+#VEGETAZIONE:
+#calcolo DVI e NDVI e poi plottole due immagini per far vedere la differenza visiva nel prima e dopo sulla vegetazione
+#posso far vedere la differenza tra TRUE COLOR e NIR, sia prima che dopo
+# poi potrei calcolare le percentuali a cui corrisponde la veg, quindi fare una classificazione 
 
 
 #SATELLITE SENTINEL-2: 
