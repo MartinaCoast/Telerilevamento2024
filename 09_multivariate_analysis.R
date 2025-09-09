@@ -23,8 +23,10 @@ im.plotRGB(sentdo, r=4, g=3, b=2) #banda 4 montata su rosso, banda 3 su verde, b
 #Oppure:
 im.plotRGB(sentdo, r=3, g=4, b=2) # in questo caso banda 3 montata su rosso, banda 4 su verde e banda 2 su blu
 
-#Osserviamo quanto sono collegate le immagini tra di loro con la funzione "pairs", basato sulla matrice di Pearson:
+#Osserviamo quanto sono collegate le immagini tra di loro con la funzione "pairs", che calcola la correlazione basandosi sulla matrice di Pearson:
 pairs(sentdo)
+# Tra le bande blu, verde e rosso c'è un'alta correlazione (0.99 in un range che va da -1 (correlazione negativa) a +1(correlazione positiva))
+# Le immagini in diagonale e in verde mostrano le correlazioni tra le bande. Rosso, Verde e Blu sono correlate tra loro, il NIR ha una correlazione minore con le altre bande.
 
 #PCA: portare un sistema da n bande ad una banda sola
 pcimage <- im.pca(sentdo) #PERCHè VEDO SOLO 3 IMMAGINI? NON ERANO 4?
