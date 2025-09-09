@@ -30,7 +30,8 @@ setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/gh
 
 
 
-
+#SCARICO IMMAGINI DA COPERNICUS BROWSER
+#per evidenziare la vegetazione nel prima e dopo sostituisco il R nel livello 3 con il NIR perchè la vegetazione riflette il NIR e così risulterà rossa
 
 
 
