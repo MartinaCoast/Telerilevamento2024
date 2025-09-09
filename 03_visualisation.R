@@ -93,6 +93,7 @@ im.plotRGB(stacksent,3,2,1)
 
 # Per evidenziare il verde, sostituiamo il filtro rosso con la componente infrarossa (4): tutto quello che riflette infrarosso diventerà rosso
 im.plotRGB(stacksent, 4, 2, 1)
+# Quindi la vegetazione risulterà rossa perchè le foglie in condizioni ottimali riflettono tantissimo il NIR, molto di più rispetto agli altri R, G e B
 
 # esercizio: metti una di fianco all'altra le due immagini, quella a colori veri e quella a colori filtrati
 par(mfrow=c(1,2))
