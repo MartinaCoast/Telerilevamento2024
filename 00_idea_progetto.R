@@ -1,7 +1,7 @@
 #IDEA PROGETTO
 
 # Villaggio di Blatten in svizzera estate 2024-estate 2025, pre e post crollo ghiacciaio del Birch
-# ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN, SVIZZERA
+# ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN (LOTSCHEN, SVIZZERA)
 # colori viridis cosi faccio vedere anche a marci
 
 # Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
@@ -31,7 +31,17 @@ setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/gh
 
 
 #SCARICO IMMAGINI DA COPERNICUS BROWSER: o scarico immagine unica o le 4 bande e poi faccio stacksent
+# immagini scaricate in formato tiff a 16 bit dal satellite SENTINEL-2
+# scarico bande 2,3,4,8 e le stacco 
+
+#IMMAGINE 2025 {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
+#IMMAGINE 2024 {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
+
+
 #per evidenziare la vegetazione nel prima e dopo sostituisco il R nel livello 3 con il NIR perchè la vegetazione riflette il NIR e così risulterà rossa
+
+
+
 
 #VEGETAZIONE:
 #calcolo DVI e NDVI e poi plottole due immagini per far vedere la differenza visiva nel prima e dopo sulla vegetazione
