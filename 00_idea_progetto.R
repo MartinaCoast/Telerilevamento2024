@@ -32,10 +32,10 @@ setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/gh
 
 #SCARICO IMMAGINI DA COPERNICUS BROWSER: o scarico immagine unica o le 4 bande e poi faccio stacksent
 # immagini scaricate in formato tiff a 16 bit dal satellite SENTINEL-2
-# scarico bande 2,3,4,8 e le stacco 
+# scarico bande 2,3,4,8 e le sovrappongo con lo stack 
 
-#IMMAGINE 2025 {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
-#IMMAGINE 2024 {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
+#IMMAGINE 25 agosto 2025 {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
+#IMMAGINE 23 agosto 2024 {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
 
 
 #per evidenziare la vegetazione nel prima e dopo sostituisco il R nel livello 3 con il NIR perchè la vegetazione riflette il NIR e così risulterà rossa
