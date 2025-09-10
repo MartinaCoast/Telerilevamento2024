@@ -6,7 +6,7 @@ library(terra)
 library(imageRy)
 
 #importiamo l'immagine: la funzione setwd (= setworking directory) serve per far capire ad R da dove prendere l'immagine
-setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico") # tra virgolette copio il percorso della mia immagine, ma cambio il verso delle barre
+setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico") # tra virgolette copio il percorso della mia immagine, MA cambio il verso delle barre
 
 #usiamo funzione rast che serve per creare raster spaziali (sono oggetti), e assegnamo l'immagine all'oggetto eclissi
 eclissi <- rast("eclissi.png")
