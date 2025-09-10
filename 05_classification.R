@@ -4,7 +4,7 @@
 # -	Fare una classificazione: prendendo un’immagine, insegniamo al sistema le due classi di nostro interesse ( es. vegetazione e suolo nudo) e si fa una proporzione tra le due classi
 # -	Differenza tra gli indici DVI calcolati
 
-# Installo di un nuovi pacchetti necessari
+# Installo nuovi pacchetti necessari
 install.packages("ggplot2") 
 install.packages("patchwork")
 
@@ -28,11 +28,11 @@ m1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
 m2006 <- im.import("matogrosso_ast_2006209_lrg.jpg")
 
 # Classify images: classifico Mato Grosso 1992 secondo 2 cluster, bastano perchè l'immagine ha pochi colori, quindi aggiungo la c al nome
-m1992c <- im.classify(m1992, num_cluster=2)
+m1992c <- im.classify(m1992, num_cluster=2) #ottengo sempre una classificazione randomica, colori scelti da R e assegnati random
 #class 1 = forest
 #class 2 = river and human modification = suolo nudo
 
-# Classifico Mato Grosso 2006 secondo 2 cluster
+# Classifico Mato Grosso 2006 secondo 2 cluster sempre randomici
 m2006c <- im.classify(m2006, num_cluster=2)
 #class 1 = forest
 #class 2 = human modification = suolo nudo
@@ -49,7 +49,7 @@ f1992 # visualizzo il conteggio (o numero) dei pixel relativi ai 2 cluster (o cl
 
 # Proporzione tra numero dei pixel dei cluster e il totale
 tot1992 <- ncell(m1992c) # vedo totale dei pixel, che mi serve per poter fare la proporzione
-tot1992
+tot1992 #sono 1800000
 
 prop1992 = f1992 / tot1992 # proporzione tra i pixel dei due singoli cluster e i pixel totali
 prop1992
@@ -86,7 +86,7 @@ tabout <- data.frame(class, y1992, y2006) # creazione del dataframe in cui inser
 tabout # visualizzazione del dataframe
 
 # Per vedere la tabella
-view(tabout)
+View(tabout) #CON LA MAIUSCOLA! R è SENSIBILE ALLE MAIUSCOLE! ALTRIMENTI NON VIENE!!!
 
 # Grafico: creazione grafico a barre che evidenzia le due percentuali, grafico per il 1992
 ggplot(tabout, aes(x=class, y=y1992, color=class)) + geom_bar(stat="identity", fill="white")
