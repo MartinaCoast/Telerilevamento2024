@@ -1,1 +1,79 @@
+# ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN (LOTSCHEN, SVIZZERA)
+# Confronto tra agosto 2024 ed agosto 2025 SOTTOTITOLO
 
+# Scarico le immagini da Copernicus Browser:
+# Coordinate delle immagini {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
+# Scelgo le immagini relative al 23 agosto 2024 e 25 agosto 2025 in modo da avere poca copertura nevosa e simile situazione vegetazionale
+# Le immagini sono state scaricate in formato tiff a 16 bit dal satellite SENTINEL-2
+# Per ogni immagine scarico le bande 2 (blu), 3 (verde), 4 (rosso) e 8 (NIR)
+
+# Imposto su R la cartella directory dove ho salvato le immagini: R prenderà le immagini da qui
+setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/ghiacciaio")
+
+
+# Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
+install.packages("terra") #per lavorare con le immagini satellitari e usare la funzione rast()
+install.packages("ggplot2") #per creare grafici a barre
+#NON SO SE MI SERVE: install.packages("patchwork") #per attaccare insieme più plot
+install.packages("viridis") #per utilizzare palette di colori adatti ai daltonici
+
+# Installo la funzione devtools, presente sul CRAN, necessaria per scaricare il prossimo pacchetto
+install.packages("devtools")
+library(devtools)
+
+# Installo il pacchetto imageRy, esterno al CRAN e presente su GitHub
+# Questo pacchetto mi serve per classificare con im.classify() e plottare le immagini con im.plotRGB() 
+install_github("ducciorocchini/imageRy")
+
+# Richiamo tutti i pacchetti scaricati
+library(terra) 
+library(viridis) 
+library(ggplot2) 
+### library(patchwork) 
+library(imageRy)
+
+
+#####
+#per evidenziare la vegetazione nel prima e dopo sostituisco il R nel livello 3 con il NIR perchè la vegetazione riflette il NIR e così risulterà rosso
+#VEGETAZIONE:
+#calcolo DVI e NDVI e poi plottole due immagini per far vedere la differenza visiva nel prima e dopo sulla vegetazione
+#posso far vedere la differenza tra TRUE COLOR e NIR, sia prima che dopo
+# poi potrei calcolare le percentuali a cui corrisponde la veg, quindi fare una classificazione 
+######
+
+
+# Carico le immagini relative alle diverse bande sia per 2024 che per 2025, assegnando ogni banda a un oggetto
+# Includo poi tutte le bande in uno stack per creare un'immagine unica per entrambi gli anni
+
+#2024
+24_b2 <- rast("24_b2.tiff")
+24_b3 <- rast("24_b3.tiff")
+24_b4 <- rast("24_b4.tiff")
+24_b8 <- rast("24_b8.tiff")
+g2024 <- c(24_b2, 24_b3, 24_b4, 24_b8)
+
+#2025
+25_b2 <- rast("25_b2.tiff")
+25_b3 <- rast("25_b3.tiff")
+25_b4 <- rast("25_b4.tiff")
+25_b8 <- rast("25_b8.tiff")
+g2025 <- c(25_b2, 25_b3, 25_b4, 25_b8)
+
+
+
+
+
+
+par(mfrow=c(1,2))
+im.plotRGB(m2017, 1,2,3)
+im.plotRGB(m2024, 1,2,3)
+#vsualizzo le immagini facendole corrispondere a ogni banda il proprio colore=> banda rossa verrà colorata di rosso ecc
+#però qui non noto troppo le differenze, quindi dato che mi interessa il cambiamento della vegetazione, proviamo a scambiare le bande visualizzando la banda del nir in rosso
+
+dev.off()
+
+par(mfrow=c(2,2))
+im.plotRGB(m2017, 1,2,3) 
+im.plotRGB(m2017, 4,2,3) #cosi metto a confronto le due immagini dello stesso anno ma con l'infrarosso nel secondo caso
+im.plotRGB(m2024, 1,2,3)
+im.plotRGB(m2024, 4,2,3) #stessa cosa
