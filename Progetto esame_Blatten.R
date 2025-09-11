@@ -4,7 +4,7 @@
 # Scarico le immagini da Copernicus Browser:
 # Coordinate delle immagini {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
 # Scelgo le immagini relative al 23 agosto 2024 e 25 agosto 2025 in modo da avere poca copertura nevosa e simile situazione vegetazionale
-# Le immagini sono state scaricate in formato tiff a 16 bit dal satellite SENTINEL-2
+# Le immagini sono state scaricate in formato tiff a 16 bit dal satellite Sentinel-2
 # Per ogni immagine scarico le bande 2 (blu), 3 (verde), 4 (rosso) e 8 (NIR)
 
 # Imposto su R la cartella directory dove ho salvato le immagini: R prenderà le immagini da qui
@@ -46,34 +46,35 @@ library(imageRy)
 # Includo poi tutte le bande in uno stack per creare un'immagine unica per entrambi gli anni
 
 #2024
-24_b2 <- rast("24_b2.tiff")
-24_b3 <- rast("24_b3.tiff")
-24_b4 <- rast("24_b4.tiff")
-24_b8 <- rast("24_b8.tiff")
-g2024 <- c(24_b2, 24_b3, 24_b4, 24_b8)
+g24_2 <- rast("24_b2.tiff")
+g24_3 <- rast("24_b3.tiff")
+g24_4 <- rast("24_b4.tiff")
+g24_8 <- rast("24_b8.tiff")
+g2024 <- c(g24_2, g24_3, g24_4, g24_8)
 
 #2025
-25_b2 <- rast("25_b2.tiff")
-25_b3 <- rast("25_b3.tiff")
-25_b4 <- rast("25_b4.tiff")
-25_b8 <- rast("25_b8.tiff")
-g2025 <- c(25_b2, 25_b3, 25_b4, 25_b8)
+g25_2 <- rast("25_b2.tiff")
+g25_3 <- rast("25_b3.tiff")
+g25_4 <- rast("25_b4.tiff")
+g25_8 <- rast("25_b8.tiff")
+g2025 <- c(g25_2, g25_3, g25_4, g25_8)
 
 
-
-
-
-
+# Imposto un multiframe per visualizzare le due immagini in True Color tramite la funzione par() di imageRy
+# Creo una griglia di 1 riga e 2 colonne, aggiungo anche i titoli relativi agli anni
+# Per le immagini seguo la seguente sequenza di bande: r=1, g=2, b=3
 par(mfrow=c(1,2))
-im.plotRGB(m2017, 1,2,3)
-im.plotRGB(m2024, 1,2,3)
-#vsualizzo le immagini facendole corrispondere a ogni banda il proprio colore=> banda rossa verrà colorata di rosso ecc
-#però qui non noto troppo le differenze, quindi dato che mi interessa il cambiamento della vegetazione, proviamo a scambiare le bande visualizzando la banda del nir in rosso
+im.plotRGB(g2024, 1,2,3,title="2024")
+im.plotRGB(g2025, 1,2,3,title="2025")
 
 dev.off()
 
-par(mfrow=c(2,2))
-im.plotRGB(m2017, 1,2,3) 
-im.plotRGB(m2017, 4,2,3) #cosi metto a confronto le due immagini dello stesso anno ma con l'infrarosso nel secondo caso
-im.plotRGB(m2024, 1,2,3)
-im.plotRGB(m2024, 4,2,3) #stessa cosa
+# Creo un secondo multiframe mettendo il NIR al posto del rosso in modo da evidenziare meglio l'impatto del crollo sulla vegetazione
+# In questo modo tutto ciò che riflette il NIR (la vegetazione) risulterà rosso
+par(mfrow(1,2))
+im.plotRGB(g2024, 4,2,3,title="2024")
+im.plotRGB(g2025, 4,2,3,title="2025")
+
+
+
+
