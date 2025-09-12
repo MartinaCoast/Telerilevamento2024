@@ -74,38 +74,33 @@ dev.off()
 
 # Multiframe con le due situazioni a confronto, prima in TC poi con NIR al posto del rosso
 par(mfrow=c(2,2))
-im.plotRGB(G24, 3,2,1)
-title("2024", line=3)
-im.plotRGB(G25, 3,2,1)
-title("2025", line=3)
-im.plotRGB(G24, 4,2,3)
-title("2024 (nir)", line=3)
-im.plotRGB(G25, 4,2,3)
-title("2025 (nir)", line=3)
+im.plotRGB(G24, 3,2,1, main="2024", line=3)
+im.plotRGB(G25, 3,2,1, main="2025", line=3)
+im.plotRGB(G24, 4,2,3, main="2024 (nir)", line=3)
+im.plotRGB(G25, 4,2,3, main="2025 (nir)", line=3)
 
 
 # Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
 # NDVI = (nir-red)/(nir+red)
 # In questo modo osservo l'impatto che il crollo del ghiacciaio ha avuto sulla vegetazione
 NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]])
-NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]-G25[[1]])
+NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]+G25[[1]])
 
 # Creo un multiframe e plotto le immagini elaborate attraverso l'indice NDVI
 # Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
 par(mfrow=c(1,2))
-plot(NDVI_24, col=viridis() (100)) #2024
-plot(NDVI_25, col=viridis() (100)) #2025
+plot(NDVI_24, col=viridis (100), main="2024") #2024
+plot(NDVI_25, col=viridis (100), main="2025") #2025
 #il range non è in funzione della radiazione radiometrica ma è un valore adimensionale che va da -1 a 1.
 
 dev.off()
 
-# Classifico l'NDVI di entrambi gli anni in 3 cluster e creo un multiframe
-# classe 1 = altro (uomo/neve)
+# Classifico l'NDVI di entrambi gli anni in 2 cluster e creo un multiframe
+# classe 1 = altro (suolo nudo/neve/acqua)
 # classe 2 = vegetazione
-# classe 3 = no vegetazione
 
-cG24 <- im.classify(NDVI_24, num_clusters=3)
-cG25 <- im.classify(NDVI_25, num_clusters=3)
+cG24 <- im.classify(NDVI_24, num_clusters=2)
+cG25 <- im.classify(NDVI_25, num_clusters=2)
 
 par(mfrow=c(1,2))
 plot(cG24)
@@ -117,16 +112,28 @@ tot24 <- ncell(cG24)
 prop24 = f24 / tot24
 perc24 = prop24 * 100
 perc24
+## classe 1 = 42.3%, classe 2 = 57.7% 
 
 f25 <- freq(cG25)
 tot25 <- ncell(cG25)
 prop25 = f25 / tot25
 perc25 = prop25 * 100
-prop25
+perc25
+## classe 1 = 47% , classe 2 = 52.9%
 
 # Creo un dataset con le percentuali ottenute per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
 anno <- c("2024","2025")
-vegetazione
+vegetazione <- c(57.7,52.9)
+altro <- c(42.3,47)
+
+# Le percentuali sono espresse in relazione alla superficie totale dell'area di studio pari a 50.96 km2
+# Creazione del dataframe
+tab <- data.frame(anno, vegetazione, altro)
+tab
+View(tab) # Visualizzo il dataframe in versione tabella
+
+# Creo i grafici per i singoli anni
+
 
 
 
