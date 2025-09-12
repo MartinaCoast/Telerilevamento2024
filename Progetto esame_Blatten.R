@@ -14,7 +14,7 @@ setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/gh
 # Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
 install.packages("terra") #per lavorare con le immagini satellitari e usare la funzione rast()
 install.packages("ggplot2") #per creare grafici a barre
-#NON SO SE MI SERVE: install.packages("patchwork") #per attaccare insieme più plot
+install.packages("patchwork") #per la visualizzazione di più grafici insieme
 install.packages("viridis") #per utilizzare palette di colori adatti ai daltonici
 
 # Installo la funzione devtools, presente sul CRAN, necessaria per scaricare il prossimo pacchetto
@@ -29,7 +29,7 @@ install_github("ducciorocchini/imageRy")
 library(terra) 
 library(viridis) 
 library(ggplot2) 
-### library(patchwork) 
+library(patchwork) 
 library(imageRy)
 
 
@@ -43,32 +43,6 @@ g24_2 <- rast("24_b2.tiff") #blue
 g24_8 <- rast("24_b8.tiff") #nir
 G24 <- c(g24_4, g24_3, g24_2, g24_8)
 
-######################################################
-###### PROVA SOVRAPPOSIZIONE BANDE PER VEDERE SE TROVO IL TRUE COLOR
-G24_1 <- c(g24_2, g24_3, g24_4, g24_8)
-G24_2 <- c(g24_4, g24_3, g24_2, g24_8)
-G24_3 <- c(g24_8, g24_4, g24_3, g24_2)
-G24_4 <- c(g24_8, g24_2, g24_3, g24_4)
-
-par(mfrow=c(2,2))
-im.plotRGB(G24_1, 1,2,3)
-im.plotRGB(G24_2, 1,2,3)
-im.plotRGB(G24_3, 1,2,3)
-im.plotRGB(G24_4, 1,2,3)
-
-par(mfrow=c(2,2))
-im.plotRGB(G24_1, 3,2,1)
-im.plotRGB(G24_2, 3,2,1)
-im.plotRGB(G24_3, 3,2,1)
-im.plotRGB(G24_4, 3,2,1)
-
-par(mfrow=c(2,2))
-im.plotRGB(G24_1, 1,3,2)
-im.plotRGB(G24_2, 1,3,2)
-im.plotRGB(G24_3, 1,3,2)
-im.plotRGB(G24_4, 1,3,2)
-######################################
-
 #2025
 g25_4 <- rast("25_b4.tiff") #red
 g25_3 <- rast("25_b3.tiff") #green
@@ -81,9 +55,9 @@ G25 <- c(g25_4, g25_3, g25_2, g25_8)
 # Creo una griglia di 1 riga e 2 colonne, aggiungo anche i titoli relativi agli anni
 # Per le immagini seguo la seguente sequenza di bande: r=1, g=2, b=3
 par(mfrow=c(1,2))
-im.plotRGB(G24, 1,2,3)
+im.plotRGB(G24, 3,2,1)
 title("2024")
-im.plotRGB(G25, 1,2,3)
+im.plotRGB(G25, 3,2,1)
 title("2025")
 
 dev.off()
@@ -98,15 +72,16 @@ title("2025 (nir)")
 
 dev.off()
 
-###### PROVAAAAAA NON CAPISCO DOVE TROVO IMMAGINE IN TRUE COLOR
-par(mfrow=c(3,2))
+# Multiframe con le due situazioni a confronto, prima in TC poi con NIR al posto del rosso
+par(mfrow=c(2,2))
+im.plotRGB(G24, 3,2,1)
+title("2024", line=3)
+im.plotRGB(G25, 3,2,1)
+title("2025", line=3)
 im.plotRGB(G24, 4,2,3)
+title("2024 (nir)", line=3)
 im.plotRGB(G25, 4,2,3)
-im.plotRGB(G24, 4,3,2)
-im.plotRGB(G25, 4,3,2)
-im.plotRGB(G24, 4,1,2)
-im.plotRGB(G25, 4,1,2)
-##########################################
+title("2025 (nir)", line=3)
 
 
 # Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
@@ -115,13 +90,12 @@ im.plotRGB(G25, 4,1,2)
 NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]])
 NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]-G25[[1]])
 
+# Creo un multiframe e plotto le immagini elaborate attraverso l'indice NDVI
 # Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
-cl <- 
-
-# Creo un multiframe con 1 riga e 2 colonne e plotto le immagini elaborate attraverso l'indice NDVI
 par(mfrow=c(1,2))
-plot(NDVI_24, col= ... (100))
-plot(NDVI_25, col= ... (100))
+plot(NDVI_24, col=viridis() (100)) #2024
+plot(NDVI_25, col=viridis() (100)) #2025
+#il range non è in funzione della radiazione radiometrica ma è un valore adimensionale che va da -1 a 1.
 
 dev.off()
 
