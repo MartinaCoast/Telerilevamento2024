@@ -33,15 +33,6 @@ library(ggplot2)
 library(imageRy)
 
 
-#####
-#per evidenziare la vegetazione nel prima e dopo sostituisco il R nel livello 3 con il NIR perchè la vegetazione riflette il NIR e così risulterà rosso
-#VEGETAZIONE:
-#calcolo DVI e NDVI e poi plottole due immagini per far vedere la differenza visiva nel prima e dopo sulla vegetazione
-#posso far vedere la differenza tra TRUE COLOR e NIR, sia prima che dopo
-# poi potrei calcolare le percentuali a cui corrisponde la veg, quindi fare una classificazione 
-######
-
-
 # Carico le immagini relative alle diverse bande sia per 2024 che per 2025, assegnando ogni banda a un oggetto
 # Includo poi tutte le bande in uno stack per creare un'immagine unica per entrambi gli anni
 
@@ -50,31 +41,73 @@ g24_2 <- rast("24_b2.tiff")
 g24_3 <- rast("24_b3.tiff")
 g24_4 <- rast("24_b4.tiff")
 g24_8 <- rast("24_b8.tiff")
-g2024 <- c(g24_2, g24_3, g24_4, g24_8)
+G24 <- c(g24_2, g24_3, g24_4, g24_8)
 
 #2025
 g25_2 <- rast("25_b2.tiff")
 g25_3 <- rast("25_b3.tiff")
 g25_4 <- rast("25_b4.tiff")
 g25_8 <- rast("25_b8.tiff")
-g2025 <- c(g25_2, g25_3, g25_4, g25_8)
+G25 <- c(g25_2, g25_3, g25_4, g25_8)
 
 
 # Imposto un multiframe per visualizzare le due immagini in True Color tramite la funzione par() di imageRy
 # Creo una griglia di 1 riga e 2 colonne, aggiungo anche i titoli relativi agli anni
 # Per le immagini seguo la seguente sequenza di bande: r=1, g=2, b=3
 par(mfrow=c(1,2))
-im.plotRGB(g2024, 1,2,3,title="2024")
-im.plotRGB(g2025, 1,2,3,title="2025")
+im.plotRGB(G24, 1,2,3,title="2024")
+im.plotRGB(G25, 1,2,3,title="2025")
 
 dev.off()
 
 # Creo un secondo multiframe mettendo il NIR al posto del rosso in modo da evidenziare meglio l'impatto del crollo sulla vegetazione
 # In questo modo tutto ciò che riflette il NIR (la vegetazione) risulterà rosso
 par(mfrow(1,2))
-im.plotRGB(g2024, 4,2,3,title="2024")
-im.plotRGB(g2025, 4,2,3,title="2025")
+im.plotRGB(G24, 4,2,3,title="2024")
+im.plotRGB(G25, 4,2,3,title="2025")
 
+dev.off()
+
+# Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
+# NDVI = (nir-red)/(nir+red)
+# In questo modo osservo l'impatto che il crollo del ghiacciaio ha avuto sulla vegetazione
+NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]])
+NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]-G25[[1]])
+
+# Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
+cl <- 
+
+# Creo un multiframe con 1 riga e 2 colonne e plotto le immagini elaborate attraverso l'indice NDVI
+par(mfrow=c(1,2))
+plot(NDVI_24, col= ... (100))
+plot(NDVI_25, col= ... (100))
+
+dev.off()
+
+# Classifico l'NDVI di entrambi gli anni in 3 cluster e creo un multiframe
+# classe 1 = altro (uomo/neve)
+# classe 2 = vegetazione
+# classe 3 = no vegetazione
+
+cG24 <- im.classify(NDVI_24, num_clusters=3)
+cG25 <- im.classify(NDVI_25, num_clusters=3)
+
+par(mfrow=c(1,2))
+plot(cG24)
+plot(cG25)
+
+# Calcolo le percentuali di copertura per ogni classe per entrambi gli anni
+f24 <- freq(cG24)
+tot24 <- ncell(cG24)
+prop24 = f24 / tot24
+perc24 = prop24 * 100
+perc24
+
+f25 <- freq(cG25)
+tot25 <- ncell(cG25)
+prop25 = f25 / tot25
+perc25 = prop25 * 100
+prop25
 
 
 
