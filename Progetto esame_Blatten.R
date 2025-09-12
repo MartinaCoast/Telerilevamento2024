@@ -10,27 +10,12 @@
 # Imposto su R la cartella directory dove ho salvato le immagini: R prenderà le immagini da qui
 setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/ghiacciaio")
 
-
-# Installo dal CRAN i paccchetti necessari ad analizzare le immagini con la funzione install.packages() mettendo il nome del pacchetto tra virgolette
-install.packages("terra") #per lavorare con le immagini satellitari e usare la funzione rast()
-install.packages("ggplot2") #per creare grafici a barre
-install.packages("patchwork") #per la visualizzazione di più grafici insieme
-install.packages("viridis") #per utilizzare palette di colori adatti ai daltonici
-
-# Installo la funzione devtools, presente sul CRAN, necessaria per scaricare il prossimo pacchetto
-install.packages("devtools")
-library(devtools)
-
-# Installo il pacchetto imageRy, esterno al CRAN e presente su GitHub
-# Questo pacchetto mi serve per classificare con im.classify() e plottare le immagini con im.plotRGB() 
-install_github("ducciorocchini/imageRy")
-
-# Richiamo tutti i pacchetti scaricati
-library(terra) 
-library(viridis) 
-library(ggplot2) 
-library(patchwork) 
-library(imageRy)
+# Richiamo tutti i pacchetti necessari
+library(terra) #per lavorare con le immagini satellitari e usare la funzione rast()
+library(viridis) #per utilizzare palette di colori adatti ai daltonici
+library(ggplot2) #per creare grafici a barre
+library(patchwork) #per la visualizzazione di più grafici insieme
+library(imageRy) #per classificare con im.classify() e plottare con im.plotRGB() le immagini
 
 
 # Carico le immagini relative alle diverse bande sia per 2024 che per 2025, assegnando ogni banda a un oggetto
