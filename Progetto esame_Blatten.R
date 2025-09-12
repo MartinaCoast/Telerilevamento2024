@@ -134,6 +134,6 @@ View(tab) # Visualizzo il dataframe in versione tabella
 
 # Creo i grafici per i singoli anni
 
-
+BARPLOT...
 
 
