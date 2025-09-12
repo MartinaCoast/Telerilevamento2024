@@ -43,6 +43,32 @@ g24_2 <- rast("24_b2.tiff") #blue
 g24_8 <- rast("24_b8.tiff") #nir
 G24 <- c(g24_4, g24_3, g24_2, g24_8)
 
+######################################################
+###### PROVA SOVRAPPOSIZIONE BANDE PER VEDERE SE TROVO IL TRUE COLOR
+G24_1 <- c(g24_2, g24_3, g24_4, g24_8)
+G24_2 <- c(g24_4, g24_3, g24_2, g24_8)
+G24_3 <- c(g24_8, g24_4, g24_3, g24_2)
+G24_4 <- c(g24_8, g24_2, g24_3, g24_4)
+
+par(mfrow=c(2,2))
+im.plotRGB(G24_1, 1,2,3)
+im.plotRGB(G24_2, 1,2,3)
+im.plotRGB(G24_3, 1,2,3)
+im.plotRGB(G24_4, 1,2,3)
+
+par(mfrow=c(2,2))
+im.plotRGB(G24_1, 3,2,1)
+im.plotRGB(G24_2, 3,2,1)
+im.plotRGB(G24_3, 3,2,1)
+im.plotRGB(G24_4, 3,2,1)
+
+par(mfrow=c(2,2))
+im.plotRGB(G24_1, 1,3,2)
+im.plotRGB(G24_2, 1,3,2)
+im.plotRGB(G24_3, 1,3,2)
+im.plotRGB(G24_4, 1,3,2)
+######################################
+
 #2025
 g25_4 <- rast("25_b4.tiff") #red
 g25_3 <- rast("25_b3.tiff") #green
