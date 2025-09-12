@@ -92,9 +92,9 @@ dev.off()
 # In questo modo tutto ciò che riflette il NIR (la vegetazione) risulterà rosso
 par(mfrow=c(1,2))
 im.plotRGB(G24, 4,2,3)
-title("2024")
+title("2024 (nir)")
 im.plotRGB(G25, 4,2,3)
-title("2025")
+title("2025 (nir)")
 
 dev.off()
 
@@ -106,7 +106,7 @@ im.plotRGB(G24, 4,3,2)
 im.plotRGB(G25, 4,3,2)
 im.plotRGB(G24, 4,1,2)
 im.plotRGB(G25, 4,1,2)
-####
+##########################################
 
 
 # Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
@@ -149,6 +149,10 @@ tot25 <- ncell(cG25)
 prop25 = f25 / tot25
 perc25 = prop25 * 100
 prop25
+
+# Creo un dataset con le percentuali ottenute per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
+anno <- c("2024","2025")
+vegetazione
 
 
 
