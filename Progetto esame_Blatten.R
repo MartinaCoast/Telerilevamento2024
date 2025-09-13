@@ -68,8 +68,8 @@ im.plotRGB(G25, 4,2,3, main="2025 (nir)", line=3)
 # Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
 # NDVI = (nir-red)/(nir+red)
 # In questo modo osservo l'impatto che il crollo del ghiacciaio ha avuto sulla vegetazione
-NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]])
-NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]+G25[[1]])
+NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]]) #### FORSE SBAGLIATO BANDA
+NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]+G25[[1]]) #### FORSE SBAGLIATO BANDA DEVO METTERE 3 AL POSTO DI 1
 
 # Creo un multiframe e plotto le immagini elaborate attraverso l'indice NDVI
 # Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
@@ -117,8 +117,16 @@ tab <- data.frame(anno, vegetazione, altro)
 tab
 View(tab) # Visualizzo il dataframe in versione tabella
 
+
+
+###### POTREI FARE IL GRAFICO A BARRE DOPO AVER CALCOLATO ANCHE L'ACQUA 
 # Creo i grafici per i singoli anni
 
 BARPLOT...
 
 
+##### PER ACQUA USO NDWI = Normalized Difference Water Index
+####The NDWI is used to monitor changes related to water content in water bodies. As water bodies strongly absorb light in visible to infrared electromagnetic spectrum, NDWI uses green and near infrared bands to highlight water bodies. It is sensitive to built-up land and can result in over-estimation of water bodies. The index was proposed by McFeeters, 1996.
+#NDWI= green-NIR/green+nir
+
+###GUARDA DA ANDRE RUBINI
