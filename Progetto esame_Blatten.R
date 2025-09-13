@@ -50,19 +50,23 @@ dev.off()
 # Creo un secondo multiframe mettendo il NIR al posto del rosso in modo da evidenziare meglio l'impatto del crollo sulla vegetazione
 # In questo modo tutto ciò che riflette il NIR (la vegetazione) risulterà rosso
 par(mfrow=c(1,2))
-im.plotRGB(G24, 4,2,3)
+im.plotRGB(G24, 4,2,1)
 title("2024 (nir)")
-im.plotRGB(G25, 4,2,3)
+im.plotRGB(G25, 4,2,1)
 title("2025 (nir)")
 
 dev.off()
 
 # Multiframe con le due situazioni a confronto, prima in TC poi con NIR al posto del rosso
 par(mfrow=c(2,2))
-im.plotRGB(G24, 3,2,1, main="2024", line=3)
-im.plotRGB(G25, 3,2,1, main="2025", line=3)
-im.plotRGB(G24, 4,2,3, main="2024 (nir)", line=3)
-im.plotRGB(G25, 4,2,3, main="2025 (nir)", line=3)
+im.plotRGB(G24, 3,2,1)
+title("2024", line=3)
+im.plotRGB(G25, 3,2,1)
+title("2025", line=3)
+im.plotRGB(G24, 4,2,1)
+title("2024 (nir)", line=3)
+im.plotRGB(G25, 4,2,1)
+title("2025 (nir)", line=3)
 
 
 # Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
@@ -70,6 +74,11 @@ im.plotRGB(G25, 4,2,3, main="2025 (nir)", line=3)
 # In questo modo osservo l'impatto che il crollo del ghiacciaio ha avuto sulla vegetazione
 NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]]) #### FORSE SBAGLIATO BANDA
 NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]+G25[[1]]) #### FORSE SBAGLIATO BANDA DEVO METTERE 3 AL POSTO DI 1
+
+################################# PROVA DA CONTROLLAREEEEE FAI LA PROVA CON IL PLOT
+NDVI_24 = (G24[[4]]-G24[[3]])/(G24[[4]]+G24[[3]]) #### FORSE SBAGLIATO BANDA
+NDVI_25 = (G25[[4]]-G25[[3]])/(G25[[4]]+G25[[3]]) #### FORSE SBAGLIATO BANDA DEVO METTERE 3 AL POSTO DI 1
+##################################
 
 # Creo un multiframe e plotto le immagini elaborate attraverso l'indice NDVI
 # Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
@@ -119,7 +128,7 @@ View(tab) # Visualizzo il dataframe in versione tabella
 
 
 
-###### POTREI FARE IL GRAFICO A BARRE DOPO AVER CALCOLATO ANCHE L'ACQUA 
+###### POTREI FARE IL GRAFICO A BARRE DOPO AVER CALCOLATO ANCHE L'ACQUA
 # Creo i grafici per i singoli anni
 
 BARPLOT...
@@ -128,5 +137,8 @@ BARPLOT...
 ##### PER ACQUA USO NDWI = Normalized Difference Water Index
 ####The NDWI is used to monitor changes related to water content in water bodies. As water bodies strongly absorb light in visible to infrared electromagnetic spectrum, NDWI uses green and near infrared bands to highlight water bodies. It is sensitive to built-up land and can result in over-estimation of water bodies. The index was proposed by McFeeters, 1996.
 #NDWI= green-NIR/green+nir
+NDWI_24 = (G24[[2]]-G24[[4]])/(G24[[2]]+G24[[4]]) #2024
+NDWI_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]]) #2025
+
 
 ###GUARDA DA ANDRE RUBINI
