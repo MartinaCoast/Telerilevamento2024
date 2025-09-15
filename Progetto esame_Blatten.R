@@ -164,19 +164,30 @@ plot(diff24, col = plasma(100), main = "NDVI_24 - NDWI_24")
 plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25")
 
 
-# Creo un dataset con le percentuali ottenute di vegetazione e acqua per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
-anno <- c("2024","2025")
-vegetazione <- c(57.7,52.9)
-acqua <- c(41.6, 45.7)
-
+# Quindi ricapitolando i valori percentuali di vegetazione e acqua nei due anni saranno rispettivamente:
+# vegetazione: 57.7 % e 52.9 %
+# acqua: 41.6 % e 45.7 %
 # Le percentuali sono espresse in relazione alla superficie totale dell'area di studio pari a 50.96 km2
-# Creazione del dataframe
-tab <- data.frame(anno, vegetazione, acqua)
-tab
-View(tab) # Visualizzo il dataframe in versione tabella
 
+# Creo 2 dataset, uno per anno, con le percentuali ottenute di vegetazione e acqua in quell'anno
+elemento <- c("vegetazione", "acqua")
+estensione_2024 <- c(57.7, 41.6)
+estensione_2025 <- c(52.9, 45.7)
 
-####################
-BARPLOT...
+# Creazione dei due dataframe, uno per anno
+anno2024 <- data.frame(elemento, estensione_2024) #dataset anno 2024
+anno2024
+anno2025 <- data.frame(elemento, estensione_2025) #dataset anno 2025
+anno2025
 
+# Adesso visualizziamo i dataframe in versione tabella
+View(anno2024)
+View(anno2025)
 
+# Realizzo i grafici per i singoli anni, in modo da visualizzare l'impatto del crollo del ghiacciaio
+
+a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse", "acqua" = "cyan")) + ylim(c(0,100))
+a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse", "acqua" = "cyan")) + ylim(c(0,100))
+a2024+a2025
+
+# I due grafici insieme mostrano come l'impatto del ghiacciaio abbia modificato questi due fattori dell'area presa in esame 
