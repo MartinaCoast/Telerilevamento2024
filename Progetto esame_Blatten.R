@@ -190,4 +190,4 @@ a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + g
 a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse", "acqua" = "cyan")) + ylim(c(0,100))
 a2024+a2025
 
-# I due grafici insieme mostrano come l'impatto del ghiacciaio abbia modificato questi due fattori dell'area presa in esame 
+# I due grafici insieme mostrano come il crollo del ghiacciaio abbia impattato e modificato la morfologia dell'area presa in esame, andando ad alterare questi due elementi.
