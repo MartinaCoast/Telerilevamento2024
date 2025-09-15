@@ -153,16 +153,18 @@ percw25
 ## classe 1 =  54.2%, classe 2 = 45.7%
 
 
-# Cerchiamo di visualizzare visivamente la differenza tra NDVI e NDWI per entrambi gli anni
+# Metto in relazione i due indici NDVI e NDWI per entrambi gli anni calcolando la loro differneza
 # A valori positivi corrisponde dominanza di vegetazione e a valori negativi corrisponde una dominanza di acqua
+# In questo caso il range va da +2 a -2 perchè entrambi gli indici sono normalizzati compresi tra +1 e -1
+# Esempio: caso estremo in cui vegetazione è +1 e acqua assente quindi -1, diff(NDVI-NDWI) = +1 - (-1) = +2
 diff24 <- NDVI_24 - NDWI_24
-plot(diff24, col = viridis(100), main = "NDVI_24 - NDWI_24")
-
 diff25 <- NDVI_25 - NDWI_25
-plot(diff25, col = viridis(100), main = "NDVI_25 - NDWI_25")
+par(mfrow=c(1,2))
+plot(diff24, col = inferno(100), main = "NDVI_24 - NDWI_24")
+plot(diff25, col = inferno(100), main = "NDVI_25 - NDWI_25")
 
 
-# Creo un dataset con le percentuali ottenute per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
+# Creo un dataset con le percentuali ottenute di vegetazione e acqua per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
 anno <- c("2024","2025")
 vegetazione <- c(57.7,52.9)
 acqua <- c(41.6, 45.7)
@@ -173,5 +175,8 @@ tab <- data.frame(anno, vegetazione, acqua)
 tab
 View(tab) # Visualizzo il dataframe in versione tabella
 
+
+####################
+BARPLOT...
 
 
