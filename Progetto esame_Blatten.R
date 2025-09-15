@@ -41,9 +41,9 @@ G25 <- c(g25_4, g25_3, g25_2, g25_8)
 # Per le immagini seguo la seguente sequenza di bande: r=1, g=2, b=3
 par(mfrow=c(1,2))
 im.plotRGB(G24, 3,2,1)
-title("2024")
+title("2024", line=-2)
 im.plotRGB(G25, 3,2,1)
-title("2025")
+title("2025", line=-2)
 
 dev.off()
 
@@ -51,9 +51,9 @@ dev.off()
 # In questo modo tutto ciò che riflette il NIR (la vegetazione) risulterà rosso
 par(mfrow=c(1,2))
 im.plotRGB(G24, 4,2,1)
-title("2024 (nir)")
+title("2024 (nir)", line=-2)
 im.plotRGB(G25, 4,2,1)
-title("2025 (nir)")
+title("2025 (nir)", line=-2)
 
 dev.off()
 
@@ -72,13 +72,8 @@ title("2025 (nir)", line=3)
 # Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
 # NDVI = (nir-red)/(nir+red)
 # In questo modo osservo l'impatto che il crollo del ghiacciaio ha avuto sulla vegetazione
-NDVI_24 = (G24[[4]]-G24[[1]])/(G24[[4]]+G24[[1]]) #### FORSE SBAGLIATO BANDA
-NDVI_25 = (G25[[4]]-G25[[1]])/(G25[[4]]+G25[[1]]) #### FORSE SBAGLIATO BANDA DEVO METTERE 3 AL POSTO DI 1
-
-################################# PROVA DA CONTROLLAREEEEE FAI LA PROVA CON IL PLOT
-NDVI_24 = (G24[[4]]-G24[[3]])/(G24[[4]]+G24[[3]]) #### FORSE SBAGLIATO BANDA
-NDVI_25 = (G25[[4]]-G25[[3]])/(G25[[4]]+G25[[3]]) #### FORSE SBAGLIATO BANDA DEVO METTERE 3 AL POSTO DI 1
-##################################
+NDVI_24 = (G24[[4]]-G24[[3]])/(G24[[4]]+G24[[3]]) #NDVI 2024
+NDVI_25 = (G25[[4]]-G25[[3]])/(G25[[4]]+G25[[3]]) #NDVI 2025
 
 # Creo un multiframe e plotto le immagini elaborate attraverso l'indice NDVI
 # Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
@@ -113,32 +108,70 @@ tot25 <- ncell(cG25)
 prop25 = f25 / tot25
 perc25 = prop25 * 100
 perc25
-## classe 1 = 47% , classe 2 = 52.9%
+## classe 1 = 47,0% , classe 2 = 52.9%
+
+
+# Adesso calcolo l'NDWI (Normalized Difference Water Index) per osservare come la frana ha influito sul corpo idrico della valle
+###The NDWI is used to monitor changes related to water content in water bodies. As water bodies strongly absorb light in visible to infrared electromagnetic spectrum, NDWI uses green and near infrared bands to highlight water bodies. It is sensitive to built-up land and can result in over-estimation of water bodies. The index was proposed by McFeeters, 1996.
+# Utilizzo la seguente formula:
+# NDWI= green-NIR/green+nir
+NDWI_24 = (G24[[2]]-G24[[4]])/(G24[[2]]+G24[[4]]) #2024
+NDWI_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]]) #2025
+
+# Nuovamente creo un multiframe e plotto le immagini elaborate attraverso l'indice NDWI
+# Seleziono sempre una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
+par(mfrow=c(1,2))
+plot(NDWI_24, col=cividis (100), main="2024") #2024
+plot(NDWI_25, col=cividis (100), main="2025") #2025
+
+dev.off()
+
+# Classifico l'NDWI di entrambi gli anni in 2 cluster e creo un multiframe
+# classe 1 = altro (vegetazione)
+# classe 2 = acqua
+
+wG24 <- im.classify(NDWI_24, num_clusters=2)
+wG25 <- im.classify(NDWI_25, num_clusters=2)
+
+par(mfrow=c(1,2))
+plot(wG24)
+plot(wG25)
+
+# Calcolo le percentuali di copertura per ogni classe per entrambi gli anni
+fw24 <- freq(wG24)
+totw24 <- ncell(wG24)
+propw24 = fw24 / totw24
+percw24 = propw24 * 100
+percw24
+## classe 1 = 58.4%, classe 2 = 41.6%
+
+fw25 <- freq(wG25)
+totw25 <- ncell(wG25)
+propw25 = fw25 / totw25
+percw25 = propw25 * 100
+percw25
+## classe 1 =  54.2%, classe 2 = 45.7%
+
+
+# Cerchiamo di visualizzare visivamente la differenza tra NDVI e NDWI per entrambi gli anni
+# A valori positivi corrisponde dominanza di vegetazione e a valori negativi corrisponde una dominanza di acqua
+diff24 <- NDVI_24 - NDWI_24
+plot(diff24, col = viridis(100), main = "NDVI_24 - NDWI_24")
+
+diff25 <- NDVI_25 - NDWI_25
+plot(diff25, col = viridis(100), main = "NDVI_25 - NDWI_25")
+
 
 # Creo un dataset con le percentuali ottenute per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
 anno <- c("2024","2025")
 vegetazione <- c(57.7,52.9)
-altro <- c(42.3,47)
+acqua <- c(41.6, 45.7)
 
 # Le percentuali sono espresse in relazione alla superficie totale dell'area di studio pari a 50.96 km2
 # Creazione del dataframe
-tab <- data.frame(anno, vegetazione, altro)
+tab <- data.frame(anno, vegetazione, acqua)
 tab
 View(tab) # Visualizzo il dataframe in versione tabella
 
 
 
-###### POTREI FARE IL GRAFICO A BARRE DOPO AVER CALCOLATO ANCHE L'ACQUA
-# Creo i grafici per i singoli anni
-
-BARPLOT...
-
-
-##### PER ACQUA USO NDWI = Normalized Difference Water Index
-####The NDWI is used to monitor changes related to water content in water bodies. As water bodies strongly absorb light in visible to infrared electromagnetic spectrum, NDWI uses green and near infrared bands to highlight water bodies. It is sensitive to built-up land and can result in over-estimation of water bodies. The index was proposed by McFeeters, 1996.
-#NDWI= green-NIR/green+nir
-NDWI_24 = (G24[[2]]-G24[[4]])/(G24[[2]]+G24[[4]]) #2024
-NDWI_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]]) #2025
-
-
-###GUARDA DA ANDRE RUBINI
