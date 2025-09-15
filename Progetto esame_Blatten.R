@@ -160,8 +160,8 @@ percw25
 diff24 <- NDVI_24 - NDWI_24
 diff25 <- NDVI_25 - NDWI_25
 par(mfrow=c(1,2))
-plot(diff24, col = inferno(100), main = "NDVI_24 - NDWI_24")
-plot(diff25, col = inferno(100), main = "NDVI_25 - NDWI_25")
+plot(diff24, col = plasma(100), main = "NDVI_24 - NDWI_24")
+plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25")
 
 
 # Creo un dataset con le percentuali ottenute di vegetazione e acqua per confrontare come sono variate le frequenze tra prima e dopo il crollo del ghiacciaio:
