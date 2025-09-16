@@ -3,9 +3,10 @@
 
 # Scarico le immagini da Copernicus Browser:
 # Coordinate delle immagini {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
-# Scelgo le immagini relative al 23 agosto 2024 e 25 agosto 2025 in modo da avere poca copertura nevosa e simile situazione vegetazionale
+# Scelgo le immagini relative al 23 agosto 2024 e 25 agosto 2025 in modo da avere poca copertura nevosa e simile situazione vegetazionale e climatica
 # Le immagini sono state scaricate in formato tiff a 16 bit dal satellite Sentinel-2
 # Per ogni immagine scarico le bande 2 (blu), 3 (verde), 4 (rosso) e 8 (NIR)
+# Le immagini fanno riferimento all'area di studio pesa in esame di estensione pari a 50.96 km2
 
 # Imposto su R la cartella directory dove ho salvato le immagini: R prenderà le immagini da qui
 setwd("C:/Users/Acer/Documents/UNIBO/MAGISTRALE/telerilevamento geo-ecologico/ghiacciaio")
@@ -18,7 +19,7 @@ library(patchwork) #per la visualizzazione di più grafici insieme
 library(imageRy) #per classificare con im.classify() e plottare con im.plotRGB() le immagini
 
 
-# Carico le immagini relative alle diverse bande sia per 2024 che per 2025, assegnando ogni banda a un oggetto
+# Carico le immagini relative alle diverse bande sia per agosto 2024 che per agosto 2025, assegnando ogni banda a un oggetto
 # Includo poi tutte le bande in uno stack per creare un'immagine unica per entrambi gli anni
 
 #2024
@@ -38,7 +39,7 @@ G25 <- c(g25_4, g25_3, g25_2, g25_8)
 
 # Imposto un multiframe per visualizzare le due immagini in True Color tramite la funzione par() di imageRy
 # Creo una griglia di 1 riga e 2 colonne, aggiungo anche i titoli relativi agli anni
-# Per le immagini seguo la seguente sequenza di bande: r=1, g=2, b=3
+# Per le immagini seguo la seguente sequenza di bande: r=3, g=2, b=1
 par(mfrow=c(1,2))
 im.plotRGB(G24, 3,2,1)
 title("2024", line=-2)
@@ -69,7 +70,7 @@ im.plotRGB(G25, 4,2,1)
 title("2025 (nir)", line=3)
 
 
-# Calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
+# Per quantificare l'impatto, calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
 # NDVI = (nir-red)/(nir+red)
 # In questo modo osservo l'impatto che il crollo del ghiacciaio ha avuto sulla vegetazione
 NDVI_24 = (G24[[4]]-G24[[3]])/(G24[[4]]+G24[[3]]) #NDVI 2024
@@ -120,6 +121,7 @@ NDWI_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]]) #2025
 
 # Nuovamente creo un multiframe e plotto le immagini elaborate attraverso l'indice NDWI
 # Seleziono sempre una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
+
 par(mfrow=c(1,2))
 plot(NDWI_24, col=cividis (100), main="2024") #2024
 plot(NDWI_25, col=cividis (100), main="2025") #2025
@@ -127,7 +129,7 @@ plot(NDWI_25, col=cividis (100), main="2025") #2025
 dev.off()
 
 # Classifico l'NDWI di entrambi gli anni in 2 cluster e creo un multiframe
-# classe 1 = altro (vegetazione)
+# classe 1 = altro (vegetazione, rocce)
 # classe 2 = acqua
 
 wG24 <- im.classify(NDWI_24, num_clusters=2)
@@ -153,23 +155,24 @@ percw25
 ## classe 1 =  54.2%, classe 2 = 45.7%
 
 
-# Metto in relazione i due indici NDVI e NDWI per entrambi gli anni calcolando la loro differneza
+# Plottando la classificazione non si coglie molto la differenza tra i 2 cluster calcolati usando l'NDVI e i 2 cluster ottenuti usando l'NDWI, in quanto le percentuali hanno valori simili
+# Quindi, per visualizzare meglio i cambiamenti e per avere nello stesso plot i due indici, li metto in relazione calcolando la loro differneza per entrambi gli anni, facendo NDVI - NDWI
 # A valori positivi corrisponde dominanza di vegetazione e a valori negativi corrisponde una dominanza di acqua
 # In questo caso il range va da +2 a -2 perchè entrambi gli indici sono normalizzati compresi tra +1 e -1
 # Esempio: caso estremo in cui vegetazione è +1 e acqua assente quindi -1, diff(NDVI-NDWI) = +1 - (-1) = +2
 diff24 <- NDVI_24 - NDWI_24
 diff25 <- NDVI_25 - NDWI_25
 par(mfrow=c(1,2))
-plot(diff24, col = plasma(100), main = "NDVI_24 - NDWI_24")
-plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25")
+plot(diff24, col = plasma(100), main = "NDVI_24 - NDWI_24") #2024
+plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25") #2025
 
 
-# Quindi ricapitolando i valori percentuali di vegetazione e acqua nei due anni saranno rispettivamente:
+# Quindi, ricapitolando i valori percentuali di vegetazione e acqua nei due anni saranno rispettivamente:
 # vegetazione: 57.7 % e 52.9 %
 # acqua: 41.6 % e 45.7 %
-# Le percentuali sono espresse in relazione alla superficie totale dell'area di studio pari a 50.96 km2
+# Le percentuali sono espresse in relazione alla superficie totale dell'area di studio
 
-# Creo 2 dataset, uno per anno, con le percentuali ottenute di vegetazione e acqua in quell'anno
+# Creo 2 dataset, uno per ogni anno, con le percentuali ottenute di vegetazione e acqua in quell'anno
 elemento <- c("vegetazione", "acqua")
 estensione_2024 <- c(57.7, 41.6)
 estensione_2025 <- c(52.9, 45.7)
@@ -186,8 +189,8 @@ View(anno2025)
 
 # Realizzo i grafici per i singoli anni, in modo da visualizzare l'impatto del crollo del ghiacciaio
 
-a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse", "acqua" = "cyan")) + ylim(c(0,100))
-a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse", "acqua" = "cyan")) + ylim(c(0,100))
+a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + ylim(c(0,100))
+a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + ylim(c(0,100))
 a2024+a2025
 
 # I due grafici insieme mostrano come il crollo del ghiacciaio abbia impattato e modificato la morfologia dell'area presa in esame, andando ad alterare questi due elementi.
