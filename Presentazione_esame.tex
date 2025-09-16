@@ -1,0 +1,322 @@
+\documentclass{beamer} % beamer è il tipo di domcumento per la presentazione
+\usepackage{graphicx} % Necessario per inserire immagini
+\usepackage{listings} % Pacchetto utile per caricare algoritmi direttamente dagli script
+\usepackage{multicol} % Per visualizzare gli oggetti su due colonne
+\usepackage{url} % Per inserire pagine web
+
+% sito per info cambio tema: https://mpetroff.net/files/beamer-theme-matrix/
+\usetheme{Frankfurt}
+\usecolortheme{seahorse}
+
+\title{\textbf{Il crollo del Birchgletscher sul paese di Blatten (Lotschen, Svizzera)}}
+\subtitle{Analisi dell'impatto causato dalla frana}
+\author{Martina Costa}
+\date{17 settembre 2025}
+
+\begin{document}
+
+\maketitle
+
+\AtBeginSection[] % Do nothing for \section*
+{
+\begin{frame}{Indice}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\section{Il crollo}
+
+\begin{frame}{La località}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\linewidth]{frana.jpg}
+    \vspace{-10pt}
+    \caption{Area d'indagine}
+    \label{fig:placeholder}
+\end{figure}
+\vspace{-20pt}
+    {\small
+    \begin{itemize}
+        \item Valle Lötschental, Canton Vallese, Svizzera
+        \item Fiume Lonza
+        \item 1540 m s.l.m
+        \item Monitoraggio a seguito di frane negli anni '90
+    \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Timeline}
+\begin{multicols}{2}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{mucca3.jpg}
+    \label{fig:placeholder}
+\end{figure}
+\columnbreak
+    {\small
+    \begin{itemize}
+        \item \textbf{15 maggio}: si stacca un pezzo del monte Nesthorn, formando una frana che travolge il ghiacciaio e si ferma a 500m dal fiume
+        \item \textbf{17 maggio}: evacuazione del paese di Blatten
+        \item Giorni successivi: continuano a cadere massi e detriti dal Nesthorn, accumulandosi sopra al ghiacciaio
+        \item \textbf{27 maggio}: primo crollo parziale
+        \item \textbf{28 maggio}: il ghiacciaio e i detriti sommergono il paese
+    \end{itemize}
+    }
+\end{multicols}
+\end{frame}
+
+\begin{frame}{Il lago}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{lago1.jpg}
+        \caption{Formazione di un lago a seguito dello sbarramento del fiume Lonza e dell'accumulo di ghiaccio.}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Obbiettivo del progetto}
+Lo studio si pone come obbiettivo quello di quantificare le modificazioni del territorio a seguito del crollo del ghiacciaio.
+
+
+\bigskip Per avere copertura nivale e situazione vegetazionale simili, sono state selezionate le immagini relative al 23 agosto 2024 e 25 agosto 2025.
+
+\bigskip L'area analizzata ha un'estensione di 50.96 km$^{2}$.
+    
+\end{frame}
+
+
+\section{Raccolta dati}
+ \begin{frame}{Raccolta dati}
+        Le immagini utilizzate per questo progetto sono state catturate dal satellite Sentinel-2 e scaricate dal Copenicus Browser.
+
+        \bigskip Per avere immagini nitide è stata impostata una copertura di nuvole al 5\%.
+            
+        Sono state scaricate le bande 2, 3, 4 e 8 in formato .TIFF a 16 bit.
+
+        \bigskip Pacchetti utilizzati:
+        \begin{itemize}
+            \item    \texttt{library(terra)} %per font Courier
+            \item    \texttt{library(imageRy)} 
+            \item    \texttt{library(viridis)}
+            \item    \texttt{library(ggplot2)} 
+            \item    \texttt{library(patchwork)}
+        \end{itemize}    
+        
+\end{frame}
+
+\begin{frame}{Codice}
+    Una volta scaricate le varie bande, queste sono state sovrapposte per creare le immagini in True Color.
+
+    \bigskip In seguito è stato sostituito il \textbf{NIR} al \textbf{rosso}, mettendo in risalto sia la vegetazione che la formazione del lago, in quanto il vicino infrarosso viene riflesso dalla vegetazione e assorbito dagli specchi d'acqua.
+
+    \bigskip \texttt{par(mfrow=c(1,2))}
+    
+    \texttt{im.plotRGB(G24, 4,2,1)}
+    
+    \texttt{title("2024 (nir)", line=-2)}
+    
+    \texttt{im.plotRGB(G25, 4,2,1)}
+    
+    \texttt{title("2025 (nir)", line=-2)}
+\end{frame}
+
+\begin{frame}{NIR on Red}
+    \begin{figure}
+            \centering
+            \includegraphics[trim=0cm 5cm 0cm 2cm, clip, width=0.8\linewidth]{NIR_confronto.jpeg}
+            \caption{False Color}
+            \label{fig:placeholder}
+        
+    \end{figure}
+\end{frame}
+
+\begin{frame}{NDVI}
+    Calcolo l'NDVI (Normalized Difference Vegetation Index) seguendo la formula:
+    \begin{equation}
+                NDVI = \frac{(NIR - RED)}{(NIR + RED)}
+    \end{equation}
+
+    \bigskip Questo indice è un indicatore della presenza di vegetazione, in quanto la vegetazione assorbe la luce nel rosso visibile e riflette fortemente la luce nel vicino infrarosso.
+
+    \begin{center}
+        \bigskip \texttt{NDVI\_24 = (G24[[4]]-G24[[3]])/(G24[[4]]+G24[[3]])}
+        
+        \bigskip \texttt{NDVI\_25 = (G25[[4]]-G25[[3]])/(G25[[4]]+G25[[3]])} 
+    \end{center}
+\end{frame}
+
+\begin{frame}{Classificazione in base all'NDVI}
+    \begin{figure}
+        \centering
+        \includegraphics[trim=0cm 6cm 0cm 5cm, clip, width=1\linewidth]{NDVI_confronto.jpeg}
+        \caption{Visualizzazione delle immagini elaborate attraverso l'NDVI. La colorazione scelta è viridis in modo da evidenziare la vegetazione in giallo mentre il resto del territorio apparirà in una scala di blu.}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{NDWI}
+    Calcolo poi l'NDWI (Normalized Difference Water Index) seguendo la formula:
+    \begin{equation}
+                NDWI = \frac{(GREEN - NIR)}{(GREEN + NIR)}
+    \end{equation}
+    
+    \bigskip Questo indice sfrutta il fatto che l'acqua assorbe fortemente il NIR e riflette il verde, consentendo di evidenziare il cambiamento nel contenuto di acqua superficiale della valle.
+
+    \begin{center}
+        \bigskip \texttt{NDWI\_24 = (G24[[2]]-G24[[4]])/(G24[[2]]+G24[[4]])}
+    
+        \bigskip\texttt{NDWI\_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]])}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Classificazione in base all'NDWI}
+\begin{figure}
+    \centering
+    \includegraphics[trim=0cm 6cm 0cm 5cm, clip, width=1\linewidth]{NDWI_confronto.jpeg}
+    \caption{Visualizzazione delle immagini elaborate attraverso l'NDWI. In questo caso la colorazione scelta è cividis, in modo da evidenziare in giallo l'acqua.}
+    \label{fig:placeholder}
+\end{figure}
+    
+\end{frame}
+
+\begin{frame}{Calcolo delle classi}
+    I risultati ottenuti con il calcolo di NDVI e NDWI per entrambi gli anni sono stati suddivisi in 2 cluster, calcolando poi la percenutale di copertura per ogni cluster.
+
+    \begin{center}
+        \bigskip \texttt{cG24 <- im.classify(NDVI\_24, num\_clusters=2)}
+    
+        \texttt{cG25 <- im.classify(NDVI\_25, num\_clusters=2)}
+
+        \bigskip \texttt{wG24 <- im.classify(NDWI\_24, num\_clusters=2)}
+
+        \texttt{wG25 <- im.classify(NDWI\_25, num\_clusters=2)}
+    \end{center}
+    
+    \bigskip\textnormal{Cluster per NDVI: vegetazione, altro (suolo nudo/neve/acqua)}
+    
+    \textnormal{Cluster per NDWI: acqua, altro (vegetazione/rocce)}
+\end{frame}
+
+\begin{frame}{Creazione dei dataframe}
+    Esempio di calcolo delle percentuali:
+
+    \texttt{f24 <- freq(cG24)}
+
+    \texttt{tot24 <- ncell(cG24)}
+
+    \texttt{prop24 = f24 / tot24}
+
+    \texttt{perc24 = prop24 * 100}
+    
+    \texttt{perc24}
+    
+    \bigskip Le percentuali sono state utilizzate per creare due Dataframe, uno per anno, e ognuno con la rispettiva percentuale di vegetazione e acqua:
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.45\textwidth]{1tab2024.png}
+        \includegraphics[width=0.45\textwidth]{2tab2025.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Esempio di classificazione}
+    \begin{figure}
+        \centering
+        \includegraphics[trim=0cm 6cm 0cm 6cm, clip, width=0.7\linewidth]{classNDVI.jpeg}
+        \caption{Classificazione NDVI}
+        \label{fig:placeholder}
+    \end{figure}
+    \begin{figure}
+        \centering
+        \includegraphics[trim=0cm 6cm 0cm 6cm, clip, width=0.7\linewidth]{classNDWI.jpeg}
+        \caption{Classificazione NDWI}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Relazione tra NDVI e NDWI}
+    Plottando la classificazione non si coglie molto la differenza tra i 2 cluster calcolati usando l'NDVI e i 2 cluster ottenuti usando l'NDWI, in quanto le percentuali hanno valori simili.
+
+    \bigskip Quindi, per visualizzare meglio i cambiamenti e per avere nello stesso plot i due indici, questi possono essere messi in relazione calcolando la loro differenza per entrambi gli anni, secondo la formula:
+    \begin{equation}
+        Diff = NDVI - NDWI
+    \end{equation}
+
+    \bigskip In questo caso il range andrà da +2 a -2 perchè entrambi gli indici sono normalizzati compresi tra +1 e -1.
+\end{frame}
+
+\begin{frame}{Differenza NDVI-NDWI}
+    A valori positivi corrisponde dominanza di vegetazione e a valori negativi corrisponde una dominanza di acqua.
+    
+    \bigskip Esempio: caso estremo in cui vegetazione è +1 e acqua assente quindi -1, diff(NDVI-NDWI) = +1 - (-1) = +2
+
+    \begin{figure}
+        \centering
+        \includegraphics[trim=0cm 6cm 0cm 6cm, clip, width=0.9\linewidth]{diffNDVI-NDWI.jpeg}
+        \caption{Differenza NDVI - NDWI. La colorazione usata è plasma.}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\section{Risultati}
+\begin{frame}{Grafico a barre}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{grafico_barre.jpeg}
+        \label{fig:placeholder}
+    \end{figure}
+    \begin{center}
+        \vspace{-0.5cm}Valori di vegetazione e acqua nell'area di indagine rispettivamente in agosto 2024 e agosto 2025.
+    \end{center}
+\end{frame}
+
+\section{Conclusioni}
+\begin{frame}{Conclusioni}
+    \begin{itemize}
+        \item I risultati ottenuti mediante le analisi su R risultano rappresentativi dell'impatto che il crollo del ghiacciaio ha avuto sulla morfologia della valle;
+        \bigskip
+        \pause \item Dal calcolo delle percentuali, si può osservare come la frana abbia portato ad una diminuzione circa del 5\% della vegetazione;
+       \bigskip
+       \pause \item Mentre l'ostruzione del fiume e la conseguente formazione del lago hanno portato ad aumento di acqua superficiale nell'area circa del 4\%.
+    \end{itemize}
+\end{frame}
+
+
+\section{Links}
+
+\begin{frame}{Github e fonti}
+Il mio account \textbf{Github:}
+    \url{https://github.com/MartinaCoast}
+
+\bigskip\textbf{Sitografia:}
+\begin{itemize}
+    \item\url{https://www.rsi.ch/}
+    \item\url{https://www.rsi.ch/info/svizzera/Blatten-quando-la-montagna-crollò--2875870.html}
+    \item\url{https://it.wikipedia.org/wiki/Blatten}
+    
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    
+    \begin{multicols}{2}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{cono detrito.jpeg}
+        \label{fig:placeholder}
+    \end{figure}
+    \columnbreak
+
+     In immagine: Il cono di detrito causato dalla frana, visto dal versante opposto. Si può intravedere il lago.
+
+    \bigskip
+    \bigskip
+    \begin{center}
+        \Large {Grazie dell'attenzione!}
+    \end{center}
+    \end{multicols}
+      
+\end{frame}
+
+\end{document}
