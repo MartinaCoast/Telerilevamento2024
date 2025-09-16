@@ -198,8 +198,8 @@ View(anno2025)
 
 # Realizzo i grafici per i singoli anni, in modo da visualizzare l'impatto del crollo del ghiacciaio
 
-a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + labs(title = "agosto 2024") + ylim(c(0,100))
-a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + labs(title = "agosto 2025") + ylim(c(0,100))
+a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + ggtitle("agosto 2024") + ylim(c(0,100))
+a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + ggtitle("agosto 2025") + ylim(c(0,100))
 a2024+a2025
 
 # I due grafici insieme mostrano come il crollo del ghiacciaio abbia impattato e modificato la morfologia dell'area presa in esame, andando ad alterare questi due elementi.
