@@ -69,6 +69,7 @@ title("2024 (nir)", line=3)
 im.plotRGB(G25, 4,2,1)
 title("2025 (nir)", line=3)
 
+dev.off()
 
 # Per quantificare l'impatto, calcolo innanzitutto l'NDVI (Normalized Difference Vegetation Index) per entrambi gli anni seguendo la formula:
 # NDVI = (nir-red)/(nir+red)
@@ -78,6 +79,7 @@ NDVI_25 = (G25[[4]]-G25[[3]])/(G25[[4]]+G25[[3]]) #NDVI 2025
 
 # Creo un multiframe e plotto le immagini elaborate attraverso l'indice NDVI
 # Seleziono una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
+# Scelgo la palette viridis in modo da visualizzare la vegetazione in giallo-verde, mentre tutto il resto apparirà in una scala di blu
 par(mfrow=c(1,2))
 plot(NDVI_24, col=viridis (100), main="2024") #2024
 plot(NDVI_25, col=viridis (100), main="2025") #2025
@@ -86,8 +88,8 @@ plot(NDVI_25, col=viridis (100), main="2025") #2025
 dev.off()
 
 # Classifico l'NDVI di entrambi gli anni in 2 cluster e creo un multiframe
-# classe 1 = altro (suolo nudo/neve/acqua)
-# classe 2 = vegetazione
+# classe 1 = vegetazione 
+# classe 2 = altro (suolo nudo/neve/acqua)
 
 cG24 <- im.classify(NDVI_24, num_clusters=2)
 cG25 <- im.classify(NDVI_25, num_clusters=2)
@@ -96,31 +98,34 @@ par(mfrow=c(1,2))
 plot(cG24)
 plot(cG25)
 
+dev.off()
+
 # Calcolo le percentuali di copertura per ogni classe per entrambi gli anni
 f24 <- freq(cG24)
 tot24 <- ncell(cG24)
 prop24 = f24 / tot24
 perc24 = prop24 * 100
 perc24
-## classe 1 = 42.3%, classe 2 = 57.7% 
+## classe 1 = 59.0%, classe 2 = 40.9% 
 
 f25 <- freq(cG25)
 tot25 <- ncell(cG25)
 prop25 = f25 / tot25
 perc25 = prop25 * 100
 perc25
-## classe 1 = 47,0% , classe 2 = 52.9%
+## classe 1 = 54.6% , classe 2 = 45.3%
 
 
 # Adesso calcolo l'NDWI (Normalized Difference Water Index) per osservare come la frana ha influito sul corpo idrico della valle
-###The NDWI is used to monitor changes related to water content in water bodies. As water bodies strongly absorb light in visible to infrared electromagnetic spectrum, NDWI uses green and near infrared bands to highlight water bodies. It is sensitive to built-up land and can result in over-estimation of water bodies. The index was proposed by McFeeters, 1996.
-# Utilizzo la seguente formula:
+# Questo indice mi consente di evidenziare il cambiamento nel contenuto di acqua superficiale della valle, sfruttando il fatto che l'acqua assorbe fortemente il NIR e riflette il verde
+# Utilizzo la seguente formula (McFeeters, 1996):
 # NDWI= green-NIR/green+nir
 NDWI_24 = (G24[[2]]-G24[[4]])/(G24[[2]]+G24[[4]]) #2024
 NDWI_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]]) #2025
 
 # Nuovamente creo un multiframe e plotto le immagini elaborate attraverso l'indice NDWI
 # Seleziono sempre una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
+# In questo caso seleziono la palette cividis per evidenziare l'acqua in giallo, 
 
 par(mfrow=c(1,2))
 plot(NDWI_24, col=cividis (100), main="2024") #2024
@@ -138,6 +143,8 @@ wG25 <- im.classify(NDWI_25, num_clusters=2)
 par(mfrow=c(1,2))
 plot(wG24)
 plot(wG25)
+
+dev.off()
 
 # Calcolo le percentuali di copertura per ogni classe per entrambi gli anni
 fw24 <- freq(wG24)
@@ -163,19 +170,20 @@ percw25
 diff24 <- NDVI_24 - NDWI_24
 diff25 <- NDVI_25 - NDWI_25
 par(mfrow=c(1,2))
-plot(diff24, col = plasma(100), main = "NDVI_24 - NDWI_24") #2024
-plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25") #2025
+plot(diff24, col = plasma(100), main = "NDVI_24 - NDWI_24", cex.main=0.8) #2024
+plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25", cex.main=0.8) #2025
 
+dev.off()
 
-# Quindi, ricapitolando i valori percentuali di vegetazione e acqua nei due anni saranno rispettivamente:
-# vegetazione: 57.7 % e 52.9 %
-# acqua: 41.6 % e 45.7 %
+# Ricapitolando, i valori percentuali di vegetazione e acqua nei due anni (2024 e 2025) saranno rispettivamente:
+# vegetazione: 59.0% e 54.6%
+# acqua: 41.6% e 45.7%
 # Le percentuali sono espresse in relazione alla superficie totale dell'area di studio
 
 # Creo 2 dataset, uno per ogni anno, con le percentuali ottenute di vegetazione e acqua in quell'anno
 elemento <- c("vegetazione", "acqua")
-estensione_2024 <- c(57.7, 41.6)
-estensione_2025 <- c(52.9, 45.7)
+estensione_2024 <- c(59.0, 41.6)
+estensione_2025 <- c(54.6, 45.7)
 
 # Creazione dei due dataframe, uno per anno
 anno2024 <- data.frame(elemento, estensione_2024) #dataset anno 2024
@@ -183,14 +191,15 @@ anno2024
 anno2025 <- data.frame(elemento, estensione_2025) #dataset anno 2025
 anno2025
 
-# Adesso visualizziamo i dataframe in versione tabella
+# Adesso visualizzo i dataframe in versione tabella
 View(anno2024)
 View(anno2025)
 
+
 # Realizzo i grafici per i singoli anni, in modo da visualizzare l'impatto del crollo del ghiacciaio
 
-a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + ylim(c(0,100))
-a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + ylim(c(0,100))
+a2024 <- ggplot(anno2024, aes(x=elemento, y=estensione_2024, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + labs(title = "agosto 2024") + ylim(c(0,100))
+a2025 <- ggplot(anno2025, aes(x=elemento, y=estensione_2025, fill=elemento)) + geom_bar(stat="identity") + scale_fill_manual(values = c("vegetazione" = "chartreuse3", "acqua" = "cyan2")) + labs(title = "agosto 2025") + ylim(c(0,100))
 a2024+a2025
 
 # I due grafici insieme mostrano come il crollo del ghiacciaio abbia impattato e modificato la morfologia dell'area presa in esame, andando ad alterare questi due elementi.
