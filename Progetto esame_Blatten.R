@@ -1,5 +1,5 @@
 # ANALISI DELL'IMPATTO DEL CROLLO DEL GHIACCIAIO DEL BIRCH SUL VILLAGGIO DI BLATTEN (LOTSCHEN, SVIZZERA)
-# Confronto tra agosto 2024 ed agosto 2025 SOTTOTITOLO
+# Confronto tra agosto 2024 ed agosto 2025
 
 # Scarico le immagini da Copernicus Browser:
 # Coordinate delle immagini {"type":"Polygon","coordinates":[[[7.770536,46.442508],[7.87493,46.442508],[7.87493,46.385371],[7.770536,46.385371],[7.770536,46.442508]]]}
@@ -125,7 +125,7 @@ NDWI_25 = (G25[[2]]-G25[[4]])/(G25[[2]]+G25[[4]]) #2025
 
 # Nuovamente creo un multiframe e plotto le immagini elaborate attraverso l'indice NDWI
 # Seleziono sempre una scala di colori dal pacchetto viridis, inclusivo per le persone affette da daltonismo
-# In questo caso seleziono la palette cividis per evidenziare l'acqua in giallo, 
+# In questo caso seleziono la palette cividis per evidenziare l'acqua in giallo, mentre il resto verrà colorato con una scala di grigi.
 
 par(mfrow=c(1,2))
 plot(NDWI_24, col=cividis (100), main="2024") #2024
@@ -175,15 +175,15 @@ plot(diff25, col = plasma(100), main = "NDVI_25 - NDWI_25", cex.main=0.8) #2025
 
 dev.off()
 
-# Ricapitolando, i valori percentuali di vegetazione e acqua nei due anni (2024 e 2025) saranno rispettivamente:
+# Ricapitolando, i valori percentuali di vegetazione e acqua nei due anni (2024 e 2025) risultano rispettivamente:
 # vegetazione: 59.0% e 54.6%
 # acqua: 41.6% e 45.7%
 # Le percentuali sono espresse in relazione alla superficie totale dell'area di studio
 
 # Creo 2 dataset, uno per ogni anno, con le percentuali ottenute di vegetazione e acqua in quell'anno
-elemento <- c("vegetazione", "acqua")
-estensione_2024 <- c(59.0, 41.6)
-estensione_2025 <- c(54.6, 45.7)
+elemento <- c("vegetazione", "acqua") #categorie
+estensione_2024 <- c(59.0, 41.6) #dati 2024
+estensione_2025 <- c(54.6, 45.7) #dati 2025
 
 # Creazione dei due dataframe, uno per anno
 anno2024 <- data.frame(elemento, estensione_2024) #dataset anno 2024
