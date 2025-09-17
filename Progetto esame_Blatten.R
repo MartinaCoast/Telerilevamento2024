@@ -181,7 +181,7 @@ dev.off()
 # Le percentuali sono espresse in relazione alla superficie totale dell'area di studio
 
 # Creo 2 dataset, uno per ogni anno, con le percentuali ottenute di vegetazione e acqua in quell'anno
-elemento <- c("vegetazione", "acqua") #categorie
+elemento <- c("vegetazione", "acqua") #categorie di interesse
 estensione_2024 <- c(59.0, 41.6) #dati 2024
 estensione_2025 <- c(54.6, 45.7) #dati 2025
 
